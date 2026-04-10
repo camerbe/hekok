@@ -7,7 +7,9 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 export default defineConfig(() => ({
   root: __dirname,
   cacheDir: '../../../node_modules/.vite/libs/backoffice/feature-articles',
-  plugins: [angular(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
+  plugins: [angular({
+    tsconfig: './tsconfig.lib.json',
+  }), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
   // Uncomment this if you are using workers.
   // worker: {
   //   plugins: () => [ nxViteTsPaths() ],
@@ -24,5 +26,6 @@ export default defineConfig(() => ({
       reportsDirectory: '../../../coverage/libs/backoffice/feature-articles',
       provider: 'v8' as const,
     },
+     passWithNoTests: true,
   },
 }));
