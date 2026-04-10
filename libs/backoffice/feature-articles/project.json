@@ -1,0 +1,13 @@
+{
+  "name": "feature-articles",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/backoffice/feature-articles/src",
+  "prefix": "bo",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

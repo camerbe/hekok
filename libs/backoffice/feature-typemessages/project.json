@@ -1,0 +1,13 @@
+{
+  "name": "feature-typemessages",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/backoffice/feature-typemessages/src",
+  "prefix": "bo",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}
