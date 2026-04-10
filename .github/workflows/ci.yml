@@ -123,9 +123,8 @@ jobs:
           npx nx affected \
             --target=test \
             --base=${{ needs.setup.outputs.nx-base }} \
-            --parallel=2 \
-            --code-coverage \
-            --ci
+            --parallel=2 
+           
 
       - name: Upload coverage reports
         if: always()

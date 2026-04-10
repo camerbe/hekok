@@ -5,7 +5,7 @@
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "bundler",
-    
+    ./
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "es2022",
@@ -15,36 +15,36 @@
     "skipDefaultLibCheck": true,
     
     "paths": {
-      "@org/feature-users": ["libs/backoffice/feature-users/src/index.ts"],
+      "@org/feature-users": ["./libs/backoffice/feature-users/src/index.ts"],
       "@org/feature-articles": [
-        "libs/backoffice/feature-articles/src/index.ts"
+        "./libs/backoffice/feature-articles/src/index.ts"
       ],
       "@org/feature-messages": [
-        "libs/backoffice/feature-messages/src/index.ts"
+        "./libs/backoffice/feature-messages/src/index.ts"
       ],
       "@org/feature-typemessages": [
-        "libs/backoffice/feature-typemessages/src/index.ts"
+        "./libs/backoffice/feature-typemessages/src/index.ts"
       ],
-      "@org/feature-videos": ["libs/backoffice/feature-videos/src/index.ts"],
-      "@org/user": ["libs/domain/src/index.ts"],
-      "@org/article": ["libs/domain/article/src/index.ts"],
-      "@org/message": ["libs/domain/message/src/index.ts"],
-      "@org/typemessage": ["libs/domain/typemessage/src/index.ts"],
-      "@org/video": ["libs/domain/video/src/index.ts"],
-      "@org/shared": ["libs/domain/shared/src/index.ts"],
-      "@org/user-api": ["libs/data-access/user-api/src/index.ts"],
-      "@org/article-api": ["libs/data-access/article-api/src/index.ts"],
-      "@org/message-api": ["libs/data-access/message-api/src/index.ts"],
-      "@org/typemessage-api": ["libs/data-access/typemessage-api/src/index.ts"],
-      "@org/video-api": ["libs/data-access/video-api/src/index.ts"],
-      "@org/auth": ["libs/data-access/auth/src/index.ts"],
-      "@org/ui": ["libs/ui/crud-table/src/index.ts"],
-      "@org/crud-form": ["libs/ui/crud-form/src/index.ts"],
-      "@org/crud-modal": ["libs/ui/crud-modal/src/index.ts"],
-      "@org/layout": ["libs/ui/layout/src/index.ts"],
-      "@org/util": ["libs/util/validators/src/index.ts"],
-      "@org/http": ["libs/util/http/src/index.ts"],
-      "@org/config": ["libs/util/config/src/index.ts"]
+      "@org/feature-videos": ["./libs/backoffice/feature-videos/src/index.ts"],
+      "@org/user": ["./libs/domain/src/index.ts"],
+      "@org/article": ["./libs/domain/article/src/index.ts"],
+      "@org/message": ["./libs/domain/message/src/index.ts"],
+      "@org/typemessage": ["./libs/domain/typemessage/src/index.ts"],
+      "@org/video": ["./libs/domain/video/src/index.ts"],
+      "@org/shared": ["./libs/domain/shared/src/index.ts"],
+      "@org/user-api": ["./libs/data-access/user-api/src/index.ts"],
+      "@org/article-api": ["./libs/data-access/article-api/src/index.ts"],
+      "@org/message-api": ["./libs/data-access/message-api/src/index.ts"],
+      "@org/typemessage-api": ["./libs/data-access/typemessage-api/src/index.ts"],
+      "@org/video-api": ["./libs/data-access/video-api/src/index.ts"],
+      "@org/auth": ["./libs/data-access/auth/src/index.ts"],
+      "@org/ui": ["./libs/ui/crud-table/src/index.ts"],
+      "@org/crud-form": ["./libs/ui/crud-form/src/index.ts"],
+      "@org/crud-modal": ["./libs/ui/crud-modal/src/index.ts"],
+      "@org/layout": ["./libs/ui/layout/src/index.ts"],
+      "@org/util": ["./libs/util/validators/src/index.ts"],
+      "@org/http": ["./libs/util/http/src/index.ts"],
+      "@org/config": ["./libs/util/config/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
