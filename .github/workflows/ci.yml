@@ -159,18 +159,18 @@ jobs:
             --parallel=2 \
             --configuration=production
 
-      - name: Upload backoffice dist
+      - name: Upload admin dist
         uses: actions/upload-artifact@v4
         with:
-          name: dist-backoffice
-          path: dist/apps/backoffice/
+          name: dist-admin
+          path: dist/apps/admin/
           retention-days: 3
 
-      - name: Upload frontoffice dist
+      - name: Upload nghekok dist
         uses: actions/upload-artifact@v4
         with:
-          name: dist-frontoffice
-          path: dist/apps/frontoffice/
+          name: dist-nghekok
+          path: dist/apps/nghekok/
           retention-days: 3
 
   # ── 6. DEPENDENCY GRAPH CHECK ─────────────
@@ -213,8 +213,8 @@ jobs:
       - name: Download backoffice dist
         uses: actions/download-artifact@v4
         with:
-          name: dist-backoffice
-          path: dist/apps/backoffice
+          name: dist-admin
+          path: dist/apps/admin
 
       # ── Replace with your own deploy step ──
       # e.g. Firebase, Vercel, S3+CloudFront, Azure Static Web Apps…
@@ -240,8 +240,8 @@ jobs:
       - name: Download frontoffice dist
         uses: actions/download-artifact@v4
         with:
-          name: dist-frontoffice
-          path: dist/apps/frontoffice
+          name: dist-nghekok
+          path: dist/apps/nghekok
 
       - name: Deploy to hosting (example)
         run: |
