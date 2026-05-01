@@ -1,0 +1,42 @@
+import { inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { AuthRepository, LoginCredentials,User, UserApiResponse } from '@org/shared';  
+import { catchError, map, Observable, tap, throwError } from 'rxjs';
+import { APP_CONFIG } from '@org/config';
+import { LocalStorageService } from './local-storage-service';
+
+
+@Injectable({
+  providedIn: 'root',
+})
+export class AuthService implements AuthRepository {
+
+  private http=inject(HttpClient);
+  private config=inject(APP_CONFIG);
+  private localStorageService=inject(LocalStorageService);
+
+  login(credentials: LoginCredentials): Observable<UserApiResponse> {
+     return this.http.post<UserApiResponse>(`${this.config.apiUrl}/login`, credentials).pipe(
+      tap(res => {
+        const { message, success, token, user } = res;
+        this.localStorageService.setToken(res.token);
+        this.localStorageService.setRole(res.user.role);
+        this.localStorageService.setName(res.user.nom+' '+res.user.prenom);
+        
+
+      }),
+      //map(res =>res.data),  
+      catchError(err => throwError(() => err))
+    );
+  }
+  logout(): Observable<void> {
+    const token = this.localStorageService.getToken();
+    this.localStorageService.removeToken();
+    return this.http.post<void>(`${this.config.apiUrl}/logout`, { token: token });
+  }
+  isTokenExpired(): boolean {
+    const expiredTime = this.localStorageService.getExpiredTime();
+    return !expiredTime || Date.now() > expiredTime;
+  }
+  
+}

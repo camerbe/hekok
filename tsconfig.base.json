@@ -6,7 +6,6 @@
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "bundler",
-    
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "es2022",
@@ -14,7 +13,6 @@
     "lib": ["es2022", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    
     "paths": {
       "@org/feature-users": ["libs/backoffice/feature-users/src/index.ts"],
       "@org/feature-articles": [
@@ -44,8 +42,13 @@
       "@org/crud-modal": ["libs/ui/crud-modal/src/index.ts"],
       "@org/layout": ["libs/ui/layout/src/index.ts"],
       "@org/util": ["libs/util/validators/src/index.ts"],
+      "@org/config": ["libs/util/config/src/index.ts"],
       "@org/http": ["libs/util/http/src/index.ts"],
-      "@org/config": ["libs/util/config/src/index.ts"]
+      "@org/feature-auth": ["libs/feature-auth/src/index.ts"],
+      "@org/crud-header": ["libs/ui/crud-header/src/index.ts"],
+      "@org/crud-button": ["libs/ui/crud-button/src/index.ts"],
+      "@org/feature-membre": ["libs/backoffice/feature-membre/src/index.ts"],
+      "@org/membre-api": ["libs/data-access/membre-api/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

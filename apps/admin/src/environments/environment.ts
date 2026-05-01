@@ -2,7 +2,7 @@ import { AppConfig } from "@org/config";
 
 export const environment: AppConfig = {
     apiUrl: "https://www.hekok.org/api",
-    baseUrl: "",
+    baseUrl: "https://www.hekok.org",
     featureFlags: {
         enableNewDashboard: true,
         enableBetaFeatures: false

@@ -12,8 +12,8 @@ This repository demonstrates a production-ready Angular monorepo with:
 
 - **2 Applications**
 
-  - `shop` - Angular e-commerce application with product listings and detail views
-  - `api` - Backend API with Docker support serving product data
+  - `admin` - Angular e-commerce application with product listings and detail views
+  - `nghekok` - Backend API with Docker support serving product data
 
 - **6 Libraries**
 

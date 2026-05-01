@@ -5,6 +5,7 @@
   "prefix": "app",
   "sourceRoot": "apps/admin/src",
   "tags": [],
+ 
   "targets": {
     "build": {
       "executor": "@angular/build:application",
@@ -19,6 +20,11 @@
           {
             "glob": "**/*",
             "input": "apps/admin/public"
+          },
+          {
+            "glob": "**/*",
+            "input": "node_modules/tinymce",
+            "output": "/tinymce/"
           }
         ],
         "styles": [

@@ -6,4 +6,6 @@ import { Component } from '@angular/core';
   templateUrl: './crud-form.html',
   styleUrl: './crud-form.css',
 })
-export class CrudForm {}
+export class CrudForm {
+  
+}

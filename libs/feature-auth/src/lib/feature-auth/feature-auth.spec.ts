@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ArticleApi } from './article-api';
+import { FeatureAuth } from './feature-auth';
 
-describe('ArticleApi', () => {
-  let component: ArticleApi;
-  let fixture: ComponentFixture<ArticleApi>;
+describe('FeatureAuth', () => {
+  let component: FeatureAuth;
+  let fixture: ComponentFixture<FeatureAuth>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ArticleApi],
+      imports: [FeatureAuth],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ArticleApi);
+    fixture = TestBed.createComponent(FeatureAuth);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
