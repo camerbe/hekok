@@ -1,13 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NxWelcome } from './nx-welcome';
+import { FooterApp } from '@org/footer-app';
+import { Nav } from '@org/front-nav';
 
 @Component({
-  imports: [NxWelcome, RouterModule],
+  imports: [
+    RouterModule,
+    FooterApp,
+    Nav
+  ],
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App {
+  isMenuOpen = signal(false);
   protected title = 'nghekok';
+
+  /*************************
+   * METHODS
+   */
+  toggleMenu(isOpen: boolean) {
+    this.isMenuOpen.set(isOpen);
+  }
 }

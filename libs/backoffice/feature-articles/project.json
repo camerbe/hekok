@@ -10,8 +10,4 @@
       "executor": "@nx/eslint:lint"
     }
   }
-  ,
-  "test": {
-    "passWithNoTests": true
-  }
 }

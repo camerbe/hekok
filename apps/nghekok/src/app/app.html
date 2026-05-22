@@ -1,2 +1,9 @@
-<app-nx-welcome></app-nx-welcome>
-<router-outlet></router-outlet>
+ <lib-nav
+      (changeMenu)="toggleMenu($event)"
+ />
+ <main role="main">
+     <router-outlet></router-outlet>
+ </main>
+
+<lib-footer-app></lib-footer-app>
+

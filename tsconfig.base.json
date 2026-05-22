@@ -48,7 +48,16 @@
       "@org/crud-header": ["libs/ui/crud-header/src/index.ts"],
       "@org/crud-button": ["libs/ui/crud-button/src/index.ts"],
       "@org/feature-membre": ["libs/backoffice/feature-membre/src/index.ts"],
-      "@org/membre-api": ["libs/data-access/membre-api/src/index.ts"]
+      "@org/membre-api": ["libs/data-access/membre-api/src/index.ts"],
+      "@org/feature-public": ["libs/frontoffice/src/index.ts"],
+      "@org/front-nav": ["libs/ui/front-nav/src/index.ts"],
+      "@org/nav": ["libs/ui/front-nav/src/index.ts"],
+      "@org/communaute": ["libs/ui/front-communaute/src/index.ts"],
+      "@org/news": ["libs/ui/front-news/src/index.ts"],
+      "@org/ag-message": ["libs/ui/front-ag/src/index.ts"],
+      "@org/footer-app": ["libs/ui/front-footer/src/index.ts"],
+      "@org/article-component": ["libs/ui/front-article/src/index.ts"],
+      "@org/most-readed": ["libs/ui/front-most-read/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -19,7 +19,7 @@ export interface ArticleDetail extends ArticleCreateDto {
     id:string;
     chapeau: string;
     slug: string;
-    hits:number;
+    hit:number;
     countries: PaysDetail
     typearticles: TypeArticleDetail
 }

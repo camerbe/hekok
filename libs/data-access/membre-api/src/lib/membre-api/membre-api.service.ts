@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { APP_CONFIG } from '@org/config';
 import { AbstractCrudApi } from '@org/http';
-import { Membre, MembreCreateDto } from '@org/shared';
+import { Membre, MembreCreateDto, StatResponse } from '@org/shared';
 
 @Injectable({
   providedIn: 'root',
@@ -14,5 +14,7 @@ export class MembreApiService extends AbstractCrudApi<Membre> {
   store(membre: MembreCreateDto) {
     return this.http.post<Membre>(this.baseUrl, membre);
   }
-
+  getStat(){
+    return this.http.get<StatResponse>(`${this.baseUrl}/stat`);
+  }
 }

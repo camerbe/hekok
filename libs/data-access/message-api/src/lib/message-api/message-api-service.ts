@@ -17,5 +17,8 @@ export class MessageApiService extends AbstractCrudApi<Message> {
   getTypemessages() {
     return this.http.get<TypeMessage[]>(this.config.apiUrl + '/messagetype');
   }
+  getAGmessage() {
+    return this.http.get<Message>(this.baseUrl + '/ag');
+  }
   
 }

@@ -22,7 +22,20 @@ export class ArticleApiService extends AbstractCrudApi<Article> {
   getTypeArticles() {
     return this.http.get<Article>(`${this.baseUrl}/type/articles`);
   }
+  getCommunautes() {
+    return this.http.get<Article>(`${this.baseUrl}/banen`);
+  }
+  getCultureBanen() {
+    return this.http.get<Article>(`${this.baseUrl}/culture`);
+  }
+  getNews() {
+    return this.http.get<Article>(`${this.baseUrl}/news`);
+  }
+  getMostReaded() {
+    return this.http.get<Article>(`${this.baseUrl}/mostreaded`);
+  }
   searchArticle(value:string){
     return this.http.get<Article>(`${this.baseUrl}/search/${value}`);
   }
+
 }

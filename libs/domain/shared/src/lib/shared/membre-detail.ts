@@ -15,4 +15,10 @@ export interface MembreCreateDto {
     civilite:string;
 }
 
+export interface StatData {
+  actifs: number;
+  histoire: number;
+}
+
 export type Membre = IDto<MembreDetail>;
+export type StatResponse = IDto<StatData>;

@@ -218,10 +218,11 @@ export class FeatureMessages implements OnInit {
     datefin: this.form.value.datefin ? new Date(this.datePipe.transform(this.form.value.datefin, 'yyyy-MM-dd') ?? '') : null
    });
    const payload=this.form.value as unknown as Message;
+   
    this.messageApi.update(this.id()!, payload).subscribe({
     next: (response) => {
       const {data,success,message} = response as unknown as Message;
-      
+      console.log(`updateMessage ${data}`);
       if (success) {
         this.messageService.add({ severity: 'success', summary: 'Succès', detail: message || 'Le message a été mis à jour avec succès.' });
         this.router.navigate(['/dashboard/messages/list']);

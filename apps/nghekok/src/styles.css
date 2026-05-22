@@ -1,2 +1,204 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lora:wght@400;500;600&family=Nunito+Sans:wght@300;400;600&display=swap');
+
 @import "tailwindcss";
 @import "primeicons/primeicons.css";/* You can add global styles to this file, and also import other style files */
+
+
+     
+:root {
+      --ocre: #C8651A;
+      --rouge: #B5251E;
+      --or: #E8A020;
+      --vert: #2D6A4F;
+      --terre: #8B4513;
+      --sable: #F5E6C8;
+      --nuit: #1A0F05;
+      --creme: #FDF6E3;
+}
+
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Nunito Sans', sans-serif; background: var(--creme); color: var(--nuit); overflow-x: hidden; }
+
+    /* KENTE PATTERN */
+    .kente-bg {
+      background-color: var(--nuit);
+      background-image:
+        repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(200,101,26,0.15) 20px, rgba(200,101,26,0.15) 22px),
+        repeating-linear-gradient(0deg, transparent, transparent 20px, rgba(232,160,32,0.10) 20px, rgba(232,160,32,0.10) 22px),
+        repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(181,37,30,0.08) 10px, rgba(181,37,30,0.08) 12px);
+    }
+
+    .adinkra-bg {
+      background-color: var(--sable);
+      background-image: radial-gradient(circle at 30px 30px, rgba(200,101,26,0.12) 2px, transparent 2px),
+                        radial-gradient(circle at 70px 70px, rgba(232,160,32,0.10) 2px, transparent 2px);
+      background-size: 100px 100px;
+    }
+
+    .mud-cloth {
+      background-color: #2a1a0a;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 14px, rgba(245,230,200,0.06) 14px, rgba(245,230,200,0.06) 16px),
+        repeating-linear-gradient(90deg, transparent, transparent 14px, rgba(245,230,200,0.06) 14px, rgba(245,230,200,0.06) 16px),
+        repeating-linear-gradient(45deg, rgba(200,101,26,0.05) 0px, rgba(200,101,26,0.05) 2px, transparent 2px, transparent 16px),
+        repeating-linear-gradient(-45deg, rgba(232,160,32,0.04) 0px, rgba(232,160,32,0.04) 2px, transparent 2px, transparent 16px);
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideRight { from { opacity: 0; transform: translateX(-40px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes pulse-glow { 0%,100% { box-shadow: 0 0 0 0 rgba(232,160,32,0.3); } 50% { box-shadow: 0 0 20px 8px rgba(232,160,32,0.15); } }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    .animate-fade-up { animation: fadeUp 0.8s ease forwards; }
+    .animate-fade-in { animation: fadeIn 1s ease forwards; }
+    .animate-slide-right { animation: slideRight 0.7s ease forwards; }
+    .animate-float { animation: float 4s ease-in-out infinite; }
+    .delay-1 { animation-delay: 0.2s; opacity: 0; }
+    .delay-2 { animation-delay: 0.4s; opacity: 0; }
+    .delay-3 { animation-delay: 0.6s; opacity: 0; }
+    .delay-4 { animation-delay: 0.8s; opacity: 0; }
+
+    /* TYPOGRAPHY */
+    .font-display { font-family: 'Playfair Display', serif; }
+    .font-lora { font-family: 'Lora', serif; }
+
+    /* DECORATIVE BORDER */
+    .border-kente {
+      border: 3px solid transparent;
+      background: linear-gradient(white, white) padding-box,
+                  linear-gradient(135deg, var(--ocre), var(--or), var(--rouge), var(--vert)) border-box;
+    }
+
+    /* NAV */
+    nav { position: sticky; top: 0; z-index: 100; }
+
+    /* HERO */
+    .hero-section {
+      min-height: 100vh;
+      background: linear-gradient(160deg, #1A0F05 0%, #2D1206 40%, #3D1A08 70%, #1A0F05 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-section::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(ellipse at 20% 50%, rgba(200,101,26,0.25) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 30%, rgba(181,37,30,0.20) 0%, transparent 50%),
+        radial-gradient(ellipse at 60% 80%, rgba(45,106,79,0.18) 0%, transparent 45%);
+    }
+    .hero-section::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(232,160,32,0.04) 40px, rgba(232,160,32,0.04) 42px),
+        repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(200,101,26,0.04) 40px, rgba(200,101,26,0.04) 42px);
+    }
+
+    /* ADINKRA SYMBOLS as decorative SVG */
+    .adinkra-symbol {
+      display: inline-block;
+      width: 48px; height: 48px;
+      opacity: 0.6;
+    }
+
+    /* CARDS */
+    .card-hover {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(200,101,26,0.2);
+    }
+
+    /* PROFILE CARDS */
+    .profile-ring {
+      background: linear-gradient(135deg, var(--ocre), var(--or), var(--rouge));
+      padding: 3px;
+      border-radius: 9999px;
+    }
+    .profile-inner {
+      background: var(--sable);
+      border-radius: 9999px;
+      overflow: hidden;
+    }
+
+    /* SECTION DIVIDER */
+    .divider-kente {
+      height: 6px;
+      background: linear-gradient(90deg, var(--rouge), var(--ocre), var(--or), var(--vert), var(--ocre), var(--rouge));
+    }
+
+    /* SCROLL REVEAL */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* MOBILE MENU */
+    #mobile-menu { display: none; }
+    #mobile-menu.open { display: block; }
+
+    /* NEWS CARDS */
+    .news-tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* FOOTER LINKS */
+    .footer-link { transition: color 0.2s; }
+    .footer-link:hover { color: var(--or); }
+
+    /* SOCIAL ICON */
+    .social-btn {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(232,160,32,0.4);
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.3s;
+      color: rgba(245,230,200,0.7);
+    }
+    .social-btn:hover {
+      background: var(--or);
+      border-color: var(--or);
+      color: var(--nuit);
+      transform: scale(1.1);
+    }
+
+    /* COMMUNITY HISTORY TABS */
+    .tab-btn { transition: all 0.3s; }
+    .tab-btn.active { background: var(--ocre); color: white; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+/**** Custom *******************/
+    .article-content iframe,
+    .article-content video {
+      width: 100%;
+      height: 100%;
+      aspect-ratio: 16 / 9;
+    }
+
+    .article-content iframe {
+      display: block;
+    }
+    .article-content p {
+      font-size: 1rem;        /* équivalent text-base */
+      line-height: 1.75;      /* équivalent leading-relaxed */
+      margin-bottom: 1rem;
+    }
+    .article-content h1 {
+      font-size: 2rem;
+      font-weight: bold;
+    }
+
+    .article-content h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
