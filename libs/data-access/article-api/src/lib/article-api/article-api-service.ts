@@ -22,11 +22,12 @@ export class ArticleApiService extends AbstractCrudApi<Article> {
   getTypeArticles() {
     return this.http.get<Article>(`${this.baseUrl}/type/articles`);
   }
-  getCommunautes() {
+  // getCommunautes() {
+  //   return this.http.get<Article>(`${this.baseUrl}/banen`);
+  // }
+  getAllBanen() {
+    console.log(`${this.baseUrl}/culture`);
     return this.http.get<Article>(`${this.baseUrl}/banen`);
-  }
-  getCultureBanen() {
-    return this.http.get<Article>(`${this.baseUrl}/culture`);
   }
   getNews() {
     return this.http.get<Article>(`${this.baseUrl}/news`);
@@ -36,6 +37,10 @@ export class ArticleApiService extends AbstractCrudApi<Article> {
   }
   searchArticle(value:string){
     return this.http.get<Article>(`${this.baseUrl}/search/${value}`);
+  }
+  getCulture() {
+    console.log('getCulture banen called');
+    return this.http.get<Article>(`${this.baseUrl}/culture/banen`);
   }
 
 }

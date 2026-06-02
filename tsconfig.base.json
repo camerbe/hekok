@@ -57,7 +57,11 @@
       "@org/ag-message": ["libs/ui/front-ag/src/index.ts"],
       "@org/footer-app": ["libs/ui/front-footer/src/index.ts"],
       "@org/article-component": ["libs/ui/front-article/src/index.ts"],
-      "@org/most-readed": ["libs/ui/front-most-read/src/index.ts"]
+      "@org/most-readed": ["libs/ui/front-most-read/src/index.ts"],
+      "@org/culture-banen": ["libs/ui/front-culture-banen/src/index.ts"],
+      "@org/cinema": ["libs/ui/youtube/src/index.ts"],
+      "@org/bureau": ["libs/ui/front-team/src/index.ts"],
+      "@org/qui-sommes-nous": ["libs/ui/front-pop-up/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

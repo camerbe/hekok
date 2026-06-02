@@ -1,16 +1,17 @@
 import { isPlatformBrowser } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
-import { Nav,StatComponent } from '@org/front-nav';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, PLATFORM_ID, signal } from '@angular/core';
+import { StatComponent } from '@org/front-nav';
 import {Communaute } from '@org/communaute'
 
 import {News} from '@org/news';
+import {CultureBanen} from '@org/culture-banen';
 
-import {MembreApiService} from '@org/membre-api'
-import { Article, ArticleDetail, Membre } from '@org/shared';
-import { ArticleApiService } from '@org/article-api';
-import { DomSanitizer } from '@angular/platform-browser';
-import { forkJoin } from 'rxjs';
-import { LayoutStore } from './layout-store';
+import { ArticleDetail, UserDetail } from '@org/shared';
+import { HomeStore } from './home-store';
+import { ArticleApiService, CanonicalService, JsonLdService } from '@org/article-api';
+import { Title, Meta } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { Bureau } from '@org/bureau';
 
 type Tab = 'ndiki' | 'nitoukou' | 'yingui';
 
@@ -19,9 +20,16 @@ type Tab = 'ndiki' | 'nitoukou' | 'yingui';
   imports: [
     StatComponent,
     Communaute,
-    News
+    News,
+    CultureBanen,
+    Bureau
     
   ],
+  providers: [
+    
+    HomeStore
+  ],
+  
   template: `
    
     <!-- ═══════════════════════════════════════════
@@ -71,16 +79,11 @@ type Tab = 'ndiki' | 'nitoukou' | 'yingui';
     <em style="color: var(--or);">Hekok</em> — « Je suis parce que nous sommes. »
   </p>
 
-  <div class="flex flex-wrap gap-4 justify-center mt-10 animate-fade-up delay-4">
-    <a href="#histoire" class="px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105" style="background: var(--ocre); color: white; box-shadow: 0 4px 20px rgba(200,101,26,0.4);">
-      Découvrir notre histoire
-    </a>
-    <a href="#contact" class="px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105" style="background: transparent; color: var(--or); border: 2px solid var(--or);">
-      Rejoindre la communauté
-    </a>
+  <div class="flex flex-wrap gap-4 justify-center mt-3 animate-fade-up delay-4">
+    
     <lib-stat
-      [membreactif]="store.membreactif()"
-      [duree]="store.duree()"
+      [membreactif]="homeStore.stats().data.actifs"
+      [duree]="homeStore.stats().data.histoire"
     /> 
   </div>
   
@@ -89,94 +92,98 @@ type Tab = 'ndiki' | 'nitoukou' | 'yingui';
 <div class="divider-kente"></div>
 <lib-communaute
   (tabChange)="showTab($event)"
-  [imgNitoukou]="store.imgNitoukou()"
-  [imgNdiki]="store.imgNdiki()"
-  [imgYingui]="store.imgYingui()"
-  [linkNitoukou]="store.linkNitoukou()"
-  [linkNdiki]="store.linkNdiki()"
-  [linkYingui]="store.linkYingui()"
+  [imgNitoukou]="homeStore.imgNitoukou()"
+  [imgNdiki]="homeStore.imgNdiki()"
+  [imgYingui]="homeStore.imgYingui()"
+  [linkNitoukou]="homeStore.linkNitoukou()"
+  [linkNdiki]="homeStore.linkNdiki()"
+  [linkYingui]="homeStore.linkYingui()"
 />
 <div class="divider-kente"></div>
 <lib-news
-  [news]="store.news()"
+  [news]="homeStore.banenNews()"
 />
 <div class="divider-kente"></div>
-
+<lib-culture-banen
+  [culture]="homeStore.culture()"
+/>
+<div class="divider-kente"></div>
+<lib-bureau [team]="team()"/>
 
   `,
   styleUrl: './layout.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LayoutFrontComponent implements OnInit{
+export class LayoutFrontComponent{
 
-  /***********************
-   * SIGNALS
-   */
-
-  isMenuOpen = signal(false);
-  readonly isBrowser = signal(false);
-  // protected readonly membreactif=signal<number>(0)
-  // protected readonly duree=signal<number>(0)
-  // readonly communautes = signal<ArticleDetail[]>([]);
-  // readonly news = signal<ArticleDetail[]>([]);
   
-  // protected imgNdiki=computed(()=>{
-  //   const c = this.communautes().find(c => c.typearticles?.slug === 'ndikinimeki');
-  //   return c?.image ?? undefined;
-  // });
-  // protected imgYingui=computed(()=>{
-  //   const c = this.communautes().find(c => c.typearticles?.slug === 'yingui');
-  //   return c?.image ?? undefined;
-  // });
-  // protected imgNitoukou=computed(()=>{
-  //   const c = this.communautes().find(c => c.typearticles?.slug === 'nitoukou');
-  //   return c?.image ?? undefined;
-  // });
- 
-  // protected linkNdiki=computed(()=>{
-  //   const c = this.communautes().find(
-  //   c => c.typearticles?.slug === 'ndikinimeki'
-  // );
-
-  //   const type = c?.typearticles?.typearticle?.toLowerCase();
-  //   const slug = c?.slug;
-
-  //   return type && slug ? `${type}/${slug}` : undefined;
-  // });
-  // protected linkNitoukou=computed(()=>{
-  //   const c = this.communautes().find(c => c.typearticles?.slug === 'nitoukou');
-    
-  //   const type = c?.typearticles?.typearticle?.toLowerCase();
-  //   const slug = c?.slug;
-
-  //   if (!type || !slug) return undefined;
-
-  //   return `${type}/${slug}`;
-  // });
-  // protected linkYingui=computed(()=>{
-  //   const c = this.communautes().find(c => c.typearticles?.slug === 'yingui');
-
-  //   const type = c?.typearticles?.typearticle?.toLowerCase();
-  //   const slug = c?.slug;
-
-  //   if (!type || !slug) return undefined;
-
-  //   return `${type}/${slug}`;
-  // });
   /**************************
    * INJECT
    */
   private readonly platformId = inject(PLATFORM_ID);
-  private membreService=inject(MembreApiService)
-  private articleService=inject(ArticleApiService)
-  readonly sanitizer=inject(DomSanitizer);
-  readonly store = inject(LayoutStore);
+  readonly articleService = inject(ArticleApiService);
+  
+  readonly homeStore = inject(HomeStore);
+  readonly canonicalService = inject(CanonicalService);
+  private readonly router = inject(Router);
+  private readonly titleService = inject(Title);
+  private readonly metaService = inject(Meta);
+  readonly jsonLdService = inject(JsonLdService);
 
+/***********************
+   * SIGNALS
+   */
+
+  isMenuOpen = signal(false);
+  readonly isBrowser = signal(isPlatformBrowser(this.platformId));
+  readonly article = signal<ArticleDetail>({} as ArticleDetail);
+  //readonly culture = signal<ArticleDetail[]>([]);
+  readonly team = this.homeStore.team;
+  /**********************************
+   * COMPUTED
+   */
+  readonly baseUrl = computed(() => {
+    if (!this.isBrowser()) {
+      return '';
+    }
+
+    return `${window.location.protocol}//${window.location.host}`;
+  });
+
+  readonly logoUrl = computed(
+    () => `${this.baseUrl()}/assets/logo/logo-hekok-trans.png`
+  );
+
+  readonly currentArticle = computed<ArticleDetail | null>(() => {
+    return this.homeStore.banenNews()?.[0] ?? null;
+  });
+
+  readonly currentUrl = computed(() => {
+    return `${this.baseUrl()}${this.router.url}`;
+  });
+
+  
   /*********************
    * CONSTRUCTEUR
    */
   constructor() {
+    
     this.isBrowser.set(isPlatformBrowser(this.platformId));
+    if (!this.isBrowser()) return;
+    this.homeStore.loadNews();
+    //this.homeStore.loadCinema();
+    
+    effect(() => {
+            
+      const article = this.currentArticle();
+      //console.log('Article →', this.article());
+      if (!article) {
+        return;
+      }
+      this.updateSeo(article);
+      this.setupCanonicalUrls();
+      this.setupJsonLd();
+    });
     
     
   }
@@ -189,73 +196,206 @@ export class LayoutFrontComponent implements OnInit{
   showTab(id:Tab){
     console.log(`id ${id}`);
   }
-  // private loadCommunaute(){
-  //   return this.articleService.getCommunautes().subscribe({
-  //     next:(res)=>{
-  //       const {data,success,message}=res as unknown as Article
-  //       this.communautes.set(data as unknown as ArticleDetail[])
+  
+  private setupCanonicalUrls() {
+    const currentUrl = `${this.baseUrl()}${this.router.url}`;
+    this.canonicalService.setCanonicalURL(currentUrl);
+    this.canonicalService.setAmpCanonicalURL(`${this.baseUrl()}/amp${this.router.url}`);
+  }
+  private setupMetaTags() {
+    const tmpTitre = 'Actualités du peuple Banen du Cameroun et de sa Diaspora, Banen du Benelux | Hekok.org';
+    const dynamicDescription = `À la une : ${this.article().titre}.`;
+    const finalDescription = dynamicDescription.substring(0, 155).trim();
+    const logoUrl = `${this.baseUrl()}/assets/logo/logo-hekok-trans.png`;
+    const currentUrl = `${this.baseUrl()}${this.router.url}`;
+    //console.log('currentUrl:', currentUrl);
 
-  //     },
-  //     error:(err)=>{
-  //       console.log(`${err.error}`)
-        
+    // Batch update pour réduire les reflows
+    this.titleService.setTitle(tmpTitre);
+
+    this.metaService.addTags([
+      { name: 'description', content: finalDescription },
+      { name: 'keywords', content: 'Hekok, Banen du Benelux, communauté Banen, rassemblement culturel, lions indomptables, diaspora camerounaise, diaspora africaine, Douala, Yaoundé, Bruxelles, fraternité' },
+
+      // Open Graph
+      { property: 'og:title', content: tmpTitre },
+      { property: 'og:description', content: finalDescription },
+      { property: 'og:image', content: logoUrl },
+      { property: 'og:image:alt', content: tmpTitre },
+      { property: 'og:url', content: currentUrl },
+      { property: 'og:type', content: 'article' },
+      { property: 'og:locale', content: 'fr_FR' },
+      { property: 'og:locale:alternate', content: 'en-us' },
+      { property: 'og:site_name', content: 'Hekok.org' },
+
+      // Twitter
+      { name: 'twitter:title', content: tmpTitre },
+      { name: 'twitter:description', content: finalDescription },
+      { name: 'twitter:image', content: logoUrl },
+      { name: 'twitter:image:alt', content: tmpTitre },
+      { name: 'twitter:card', content: 'summary_large_image' },
+      { name: 'twitter:site', content: '@camer.be' },
+      { name: 'twitter:creator', content: '@camerbe' },
+      { name: 'twitter:url', content: currentUrl }
+    ]);
+  }
+  // private loadCulture() {
+  //   this.articleService.getCulture().subscribe({
+  //     next: (culture) => {
+  //       this.culture.set(culture.data as unknown as ArticleDetail[]);
+  //       console.log('Culture Banen →', this.culture());
   //     }
   //   });
   // }
-  // private loadStat(){
-  //   return this.membreService.getStat().subscribe({
-  //     next:(res)=>{
-  //       //console.log(`res ${res}`)
-  //       const{data,success,message}=res 
-  //       const{actifs,histoire}=data ;
-        
-  //       this.membreactif.set(actifs);
-  //       this.duree.set(histoire)
+  private setupJsonLd(): void {
+    const jsonLdArticles = this.homeStore.news().slice(0, 10);
+    const today = new Date().toISOString().slice(0, 19) + '+00:00';
 
-  //     },
-  //     error:(err)=>{
-  //       console.log(`${err.error}`)
-        
-  //     }
-  //   })
+    const listElements = jsonLdArticles.map((article, index) => {
+      const articleDate = new Date(article.datearticle??'').toISOString().slice(0, 19) + '+00:00';
+      const year = new Date(article.datearticle?? '').getFullYear();
+      const articleUrl = `${this.baseUrl()}/actualites/${article.slug}`;
+
+      return {
+        "@type": "ListItem",
+        "position": index + 1,
+        "item": {
+          "@context": "https://schema.org",
+          "@type": "NewsArticle",
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": articleUrl
+          },
+          "headline": article.titre,
+          "description": article.chapeau,
+          "articleSection": `${article.typearticles.typearticle}`,
+          "keywords": article.keyword.split(',').map(k => k.trim()),
+          "inLanguage": "fr-FR",
+          "url": articleUrl,
+          "datePublished": articleDate,
+          "dateModified": today,
+          "isAccessibleForFree": "True",
+          "copyrightYear": year,
+          "author": { "@type": "Person", "name": article.auteur },
+          "editor": { "@type": "Person", "name": article.source },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Camer.be",
+            "url": "https://www.camer.be",
+            "logo": {
+              "@type": "ImageObject",
+              "url": this.logoUrl,
+              "width": 190,
+              "height": 52
+            }
+          },
+          "image": {
+            "@type": "ImageObject",
+            "url": article.image,
+            "width": 850,
+            "height": 600,
+            "caption": `${article.countries.pays} :: ${article.titre} - Hekok.org`
+          },
+          "contentLocation": {
+            "@type": "Place",
+            "name": article.countries.pays
+          },
+          "articleBody": article.article,
+          "interactionStatistic": [{
+            "@type": "InteractionCounter",
+            "interactionType": {
+              "@type": "http://schema.org/ReadAction"
+            },
+            "userInteractionCount": article.hit
+          }],
+          "sameAs": [
+            "https://www.facebook.com/camergroup",
+            "https://x.com/camerbe"
+          ]
+        }
+      };
+    });
+
+    const jsonLdGlobal = {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": this.titleService.getTitle(),
+      "description": this.metaService.getTag('name=description')?.content,
+      "url": `${this.baseUrl()}${this.router.url}`,
+      "mainContentOfPage": {
+        "@type": "ItemList",
+        "itemListElement": listElements
+      }
+    };
+
+    this.jsonLdService.setJsonLd([jsonLdGlobal]);
+  }
+  // private initializeBaseUrl() {
+  //   if (typeof window !== 'undefined') {
+  //     const base = `${window.location.protocol}//${window.location.host}`;
+  //     this.baseUrl.set(base);
+  //     this.logoUrl.set(`${base}/assets/images/camer-logo.png`);
+  //   }
   // }
-
-  // private loadNews() {
-  //   return this.articleService.getNews().subscribe({
-  //     next:(res:Article) =>{
-  //       const {data,success,message}=res
-  //       this.news.set(data as unknown as ArticleDetail[])
-  //     },
-  //     error:(err)=>{
-  //       console.log(`${err.error}`)
-        
-  //     }
-  //   })
-  // }
-  ngOnInit(): void {
-    if (!this.isBrowser()) return;
-    // forkJoin({
-    //   stats:this.membreService.getStat(),
-    //   communautes:this.articleService.getCommunautes(),
-    //   news: this.articleService.getNews()
-    // }).subscribe({
-    //   next:({stats,communautes,news})=>{
-    //     const {actifs, histoire }=stats.data;
-    //     this.membreactif.set(actifs);
-    //     this.duree.set(histoire);
-
-    //     this.communautes.set(communautes.data as unknown as ArticleDetail[])
-    //      //this.communautes.set([communautes.data as ArticleDetail]);
-
-    //      this.news.set(news.data as unknown as ArticleDetail[])
-    //   },
-    // error: (err) => console.error(err)
-    // });
-    //this.loadStat();
-    //this.loadCommunaute();
-    //this.loadNews();
-    this.store.load();
+  private updateSeo(article: ArticleDetail): void {
+    const title =
+      'Actualités du peuple Banen du Cameroun et de sa Diaspora | Hekok.org';
+      
+    const description =
+      `À la une : ${article.titre}`
+        .substring(0, 155)
+        .trim();
+    this.titleService.setTitle(title);
+    this.metaService.updateTag({ name: 'description', content: description });
     
+    this.metaService.updateTag({
+      name: 'keywords',
+      content:
+        'Hekok, Banen, diaspora camerounaise, Benelux, culture africaine'
+    });
+
+    // Open Graph
+    this.metaService.updateTag({
+      property: 'og:title',
+      content: title
+    });
+
+    this.metaService.updateTag({
+      property: 'og:description',
+      content: description
+    });
+
+    this.metaService.updateTag({
+      property: 'og:image',
+      content: this.logoUrl()
+    });
+
+    this.metaService.updateTag({
+      property: 'og:type',
+      content: 'website'
+    });
+
+    // Twitter
+    this.metaService.updateTag({
+      name: 'twitter:card',
+      content: 'summary_large_image'
+    });
+
+    this.metaService.updateTag({
+      name: 'twitter:title',
+      content: title
+    });
+
+    this.metaService.updateTag({
+      name: 'twitter:description',
+      content: description
+    });
+
+    this.metaService.updateTag({
+      name: 'twitter:image',
+      content: this.logoUrl()
+    });
+    this.setupCanonicalUrls();
   }
   
 }

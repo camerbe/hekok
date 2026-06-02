@@ -1,6 +1,5 @@
 import { isPlatformBrowser, NgOptimizedImage } from '@angular/common';
 import { afterNextRender, AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, inject, Injector, input, OnInit, output, PLATFORM_ID, signal } from '@angular/core';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
 
 type Tab = 'ndiki' | 'nitoukou' | 'yingui';

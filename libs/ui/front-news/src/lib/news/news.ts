@@ -11,6 +11,7 @@ import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 registerLocaleData(localeFr);
 
@@ -18,6 +19,7 @@ registerLocaleData(localeFr);
   selector: 'lib-news',
   imports: [
     ButtonModule,
+    ProgressSpinnerModule,
     NgOptimizedImage,
     AgMessage,
     RouterLink
@@ -28,6 +30,7 @@ registerLocaleData(localeFr);
     { provide: LOCALE_ID, useValue: 'fr-FR' } // ✅ Optionnel: définir la locale
 ],
   template: `
+ 
     <section id="actualites" class="adinkra-bg py-20 px-4">
   <div class="max-w-6xl mx-auto">
     <div class="text-center mb-14 ">
@@ -57,7 +60,7 @@ registerLocaleData(localeFr);
           <p class="text-sm leading-relaxed text-[#555]">
             {{item.chapeau}}
           </p>
-          <a [routerLink]="['/actualites',item.slug]" fragment="actualites" class="block mx-auto mt-4 text-sm font-semibold transition-colors bg-[#E8A020] text-white p-3 rounded-full text-center">Réserver ma place →</a>
+          <a [routerLink]="['/actualites',item.slug]" fragment="actualites" class="block mx-auto mt-4 text-sm font-semibold transition-colors bg-[#E8A020] text-white p-3 rounded-full text-center">La suite →</a>
         </div>
       </article>
       }
@@ -66,7 +69,7 @@ registerLocaleData(localeFr);
           aria-label="Voir plus"
           [icon]="hasMore() ? 'pi pi-plus' : 'pi pi-minus'"
           [label]="hasMore() ? ' Voir plus' : ' Voir moins'"
-          class="bg-[#c8651a] border-none text-white px-6 py-3 rounded-full w-1/3 flex justify-center"
+          class=" w-1/3 flex justify-center"
           (onClick)="toggleItems()"
         />
       </div>
@@ -77,17 +80,20 @@ registerLocaleData(localeFr);
     <!-- Annonce urgente -->
     
     <lib-ag-message 
+      [isAside]="isAside()"
       [ag]="agMessage()"
     />
 
   </div>
 </section>
+  
   `,
   styleUrl: './news.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class News implements OnInit{
 
+  
   /**************************
    * INJECT
    */
@@ -121,7 +127,8 @@ export class News implements OnInit{
     : dateParution;
     return this.datePipe.transform(date,"dd MMM yyyy", undefined, 'fr-FR');
    }
-   
+   readonly loading = signal(true);
+   readonly isAside = signal(false);
    /*tabChange =output<Tab>();
    imgNitoukou=input<string>();
    imgNdiki=input<string>();
@@ -154,12 +161,17 @@ export class News implements OnInit{
    
   }
   private loadAG() {
+    this.loading.set(true);
     return this.messageService.getAGmessage().subscribe({
       next:(res)=>{
-        const {data,success,message}=res as unknown as Message
-        this.ag.set(data as unknown as MessageDetail);
-        
+        // const {data,success,message}=res as unknown as Message
+        this.ag.set(res.data as unknown as MessageDetail);
+        this.loading.set(false);
 
+      }
+      ,
+      error: () => {
+        this.loading.set(false); // ✅ éviter blocage
       }
     });
   }

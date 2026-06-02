@@ -60,18 +60,18 @@ export class LayoutStore {
   load() {
     forkJoin({
       stats: this.membreService.getStat(),
-      communautes: this.articleService.getCommunautes(),
+      //communautes: this.articleService.getCommunautes(),
       news: this.articleService.getNews()
     }).subscribe({
-      next: ({ stats, communautes, news }) => {
+      next: ({ stats }) => {
         const { actifs, histoire } = stats.data;
 
         this._membreactif.set(actifs);
         this._duree.set(histoire);
         
-        this._communautes.set(communautes.data as unknown as ArticleDetail[]);
+        // this._communautes.set(communautes.data as unknown as ArticleDetail[]);
         
-        this._news.set(news.data as unknown as ArticleDetail[]);
+        // this._news.set(news.data as unknown as ArticleDetail[]);
       },
       error: (err) => console.error(err)
     });

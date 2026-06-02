@@ -1,4 +1,4 @@
-import { Article, ArticleDetail, Message, MessageDetail } from '@org/shared';
+import { Article, ArticleDetail, Message, MessageDetail, VideoDetail } from '@org/shared';
 import { patchState, signalStore, withComputed, withHooks, withMethods, withState } from '@ngrx/signals';
 import { computed, inject, PLATFORM_ID } from '@angular/core';
 import { ArticleApiService, ArticleMetaService, CanonicalService, JsonLdService } from '@org/article-api';
@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { isPlatformBrowser } from '@angular/common';
 import { MessageApiService } from '@org/message-api';
+import { HomeStore } from '@org/layout';
+import { VideoApiService } from '@org/video-api';
 
 
 type ArticleState = {
@@ -13,14 +15,17 @@ type ArticleState = {
   articles: ArticleDetail[];
   selectedArticle: ArticleDetail | null;
   messageAg: MessageDetail | null;
+  cinema: VideoDetail[];
   dateModif: string | null;
+  error: string | null;
 };  
 const initialState: ArticleState = {
   articles: [],
   selectedArticle: null,
   messageAg: null,
   dateModif: null,
-   
+  cinema: [],
+  error: null
 };
 
 export const ArticleStore = signalStore(
@@ -28,7 +33,8 @@ export const ArticleStore = signalStore(
   withComputed((store,
       sanitizer = inject(DomSanitizer),
       router = inject(Router),
-      platformId = inject(PLATFORM_ID)
+      platformId = inject(PLATFORM_ID),
+      homeStore = inject(HomeStore)
     )=>({
     agMessage: computed(() => {
       const msg = store.messageAg()?.message ?? '';
@@ -55,6 +61,22 @@ export const ArticleStore = signalStore(
       const article=store.selectedArticle()?.article?? '';
       return sanitizer.bypassSecurityTrustHtml(article);
     }),
+    sameArticles: computed(() => {
+      const selected = store.selectedArticle();
+      if (!selected) return homeStore.news().slice(0, 6); // Return first 6 articles if no article is selected
+      
+      return homeStore.news().filter(a => a.id != selected.id).slice(0, 6);
+ 
+      
+    }),
+  })),
+  withMethods((store, 
+    articleApiService = inject(ArticleApiService), 
+    router = inject(Router), 
+    jsonLdService = inject(JsonLdService), canonicalService=inject(CanonicalService), articleMetaService=inject(ArticleMetaService), 
+    platformId = inject(PLATFORM_ID), 
+    videoService = inject(VideoApiService),
+    messageService=inject(MessageApiService)) => ({
 
     articleUrl : computed(()=>{
       if (!isPlatformBrowser(platformId)) return;
@@ -65,7 +87,7 @@ export const ArticleStore = signalStore(
     logoUrl: computed(() => {
       if (!isPlatformBrowser(platformId)) return;
       const baseUrl = `${window.location.protocol}//${window.location.host}`;
-      return `${baseUrl}}/assets/logo/logo-hekok-trans.png`;
+      return `${baseUrl}/assets/logo/logo-hekok-trans.png`;
     }),
     fallbackImage: computed(() => {
       return 'https://images.unsplash.com/photo-1492724441997-5dc865305da7';
@@ -90,14 +112,15 @@ export const ArticleStore = signalStore(
     canonicalService=inject(CanonicalService),
     articleMetaService=inject(ArticleMetaService),
     platformId = inject(PLATFORM_ID),
+    videoService = inject(VideoApiService),
     messageService=inject(MessageApiService)
 
     ) => ({
     loadMostReaded() {
       if (!isPlatformBrowser(platformId)) return;
        articleApiService.getMostReaded().subscribe((articles) => {
-        const { data } = articles as unknown as Article;
-        const articleDetails = data as unknown as ArticleDetail[];
+        
+        const articleDetails = articles.data as unknown as ArticleDetail[];
         
         patchState(store, { articles: articleDetails });
         
@@ -115,6 +138,22 @@ export const ArticleStore = signalStore(
         }
       });
     },
+    loadCinema() {
+        console.log('loadCinema called');
+        if (!isPlatformBrowser(platformId)) return;
+        
+        videoService.getVideoList().subscribe({
+          next: (cinema) => {
+            console.log('API response:', cinema);
+            console.log('Cinéma →', cinema.data);
+            patchState(store, { cinema: cinema.data as unknown as VideoDetail[]});
+          },
+          error: (error) => {
+             console.log('API error:', error);
+            patchState(store, { error: 'Failed to load cinema' });
+          }
+         });
+      },
     setFromRoute(data: ArticleDetail) {
       patchState(store, { selectedArticle: data ,
         dateModif: new Date().toISOString(),
@@ -228,6 +267,7 @@ export const ArticleStore = signalStore(
         if (!isPlatformBrowser(inject(PLATFORM_ID))) return;
         store.loadMostReaded();
         store.loadAG();
+        store.loadCinema();
       }
   }),  
 );

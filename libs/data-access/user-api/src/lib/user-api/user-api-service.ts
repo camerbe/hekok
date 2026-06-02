@@ -18,4 +18,9 @@ export class UserApiService extends AbstractCrudApi<UserListResponse> {
       return res.data
     }));  
   }
+  getTeam() {
+    return this.http.get<User>(`${this.baseUrl}/team`);
+     
+  }
+  
 }

@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, computed, inject, LOCALE_ID, OnInit, signal } from '@angular/core';
 import { FormField, form, required, email } from '@angular/forms/signals';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputGroupModule } from 'primeng/inputgroup';
@@ -14,7 +14,10 @@ import { CrudButton } from '@org/crud-button';
 import { ToastModule } from 'primeng/toast';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RadioButtonModule } from 'primeng/radiobutton';
-import {AuthService} from '@org/auth';
+import {AuthService, LocalStorageService} from '@org/auth';
+import { EditorComponent, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
+import { APP_CONFIG } from '@org/config';
+import localeFr from '@angular/common/locales/fr';
 
 type CreateUserForm = UserCreateDto 
 
@@ -30,9 +33,14 @@ type CreateUserForm = UserCreateDto
     PasswordModule,
     RadioButtonModule,
     CrudHeader,
-    CrudButton
+    CrudButton,
+    EditorComponent
   ],
-  providers: [MessageService],
+  providers: [
+    MessageService,
+    { provide: LOCALE_ID, useValue: 'fr-FR' },
+    { provide: TINYMCE_SCRIPT_SRC, useValue: '/tinymce/tinymce.min.js' },
+  ],
   template: `
     <p-toast></p-toast>
     <div class="flex justify-center">
@@ -130,6 +138,17 @@ type CreateUserForm = UserCreateDto
               />
               <label for="Sec" class="ml-2">Secrétaire</label>
            </div>
+           <div class="flex items-center">
+              <p-radiobutton 
+                name="role" 
+                value="Pre" 
+                inputId="Pre" 
+                [formField]="form.role"
+                
+                (onChange)="onRoleSelect('Pre')"
+              />
+              <label for="Sec" class="ml-2">Président</label>
+           </div>
         </div>
         @if(form.role().invalid() && form.role().touched()) {
           <small class="text-red-600">Le rôle est requis.</small>
@@ -138,6 +157,7 @@ type CreateUserForm = UserCreateDto
          
          
       </div>
+      
       @if(isAddMode()) {
       <!-- Mot de passe -->
       <div class="flex flex-col gap-1">
@@ -169,6 +189,12 @@ type CreateUserForm = UserCreateDto
         </p-inputGroup>
       </div>
       }
+      <!-- Photo-->
+        <div class="flex flex-col gap-1 col-span-2">
+          <label for="photo" class="text-sm font-medium text-slate-700">Photo</label>
+          <editor [formField]="form.photo" id="photo" [init]="photo" licenseKey="gpl" [] />
+          
+        </div>
       <!-- Bouton submit (pleine largeur) -->
       <div class="md:col-span-2">
         <lib-crud-button
@@ -190,7 +216,10 @@ type CreateUserForm = UserCreateDto
 export class FeatureUsers implements OnInit {
   
   
- 
+  protected photo: any= {};
+  private editorImageInstance: any = null;
+  private isTinyMceLoaded = false;
+
   readonly userData=signal<CreateUserForm>({
     id:'',
     nom:'',
@@ -198,7 +227,8 @@ export class FeatureUsers implements OnInit {
     role:'',
     email:'',
     password:'', 
-    password_confirmation:''
+    password_confirmation:'',
+    photo:''
   });
 
   readonly form=form(this.userData,(root)=>{
@@ -209,11 +239,12 @@ export class FeatureUsers implements OnInit {
     required(root.role);
     required(root.password);
     required(root.password_confirmation);
-        
+    
   });
   //INJECT
   private readonly router=inject(Router);
   private readonly activatedRoute = inject(ActivatedRoute);
+  private cdr = inject(ChangeDetectorRef);
 
   protected crudHeaderTitle=signal('Création de compte');
   protected crudButtonLabel=signal('Création de compte');
@@ -230,9 +261,11 @@ export class FeatureUsers implements OnInit {
   protected messageService=inject(MessageService);
   private userService=inject(UserApiService);
   private readonly authService = inject(AuthService);
-  
+  private localStorageSercvice = inject(LocalStorageService);
+  private readonly config = inject(APP_CONFIG);
   
   private createUser() {
+    //console.log('Creating user with data:', this.userData());
     this.userService.register(this.userData()).subscribe({
       next:(res)=>{
         const user: User = res;
@@ -302,7 +335,7 @@ export class FeatureUsers implements OnInit {
     
   }
 
-  protected onRoleSelect(value: 'Admin' | 'Tre' | 'Sec') {
+  protected onRoleSelect(value: 'Admin' | 'Tre' | 'Sec' | 'Pre') {
     this.form.role().value.set(value);
     this.form.role().markAsTouched();
     
@@ -310,10 +343,10 @@ export class FeatureUsers implements OnInit {
 
   ngOnInit(): void {
     if(this.authService.isTokenExpired()) {
-      this.router.navigate(['/auth/login']);
+      this.router.navigate(['/auth/logout']);
     }
      this.id.set(this.activatedRoute.snapshot.paramMap.get('id'));
-     //this.isAddMode.set(!this.id());
+     this.initTinyMceConfig();
      if (!this.isAddMode()) {
       const userFromResolver = this.activatedRoute.snapshot.data['oneUserResolver'] as UserDetail | null;
       
@@ -328,10 +361,99 @@ export class FeatureUsers implements OnInit {
           role: userFromResolver.role,
           email: userFromResolver.email,
           password: '12345678', // Valeur par défaut pour le mot de passe (à ne pas utiliser en production)
-          password_confirmation: '12345678' // Valeur par défaut pour la confirmation du mot de passe (à ne pas utiliser en production)
+          password_confirmation: '12345678',
+          photo:userFromResolver.photo // Valeur par défaut pour la confirmation du mot de passe (à ne pas utiliser en production)
         });
       }
      }
+  }
+
+  private initTinyMceConfig() {
+    const sharedBase = {
+      path_absolute: '/',
+      relative_urls: false,
+      base_url: '/tinymce',
+      suffix: '.min',
+      height: 450,
+  };
+
+
+    
+    this.photo = {
+      ...sharedBase,
+      menubar: 'file ',
+      toolbar_sticky: false,
+      plugins: [
+        'image', 'media'
+      ],
+      toolbar: 'image media',
+      setup: (editor: any) => {
+        editor.on('init', () => {
+          this.editorImageInstance = editor;
+          this.isTinyMceLoaded = true;
+          this.cdr.markForCheck();
+        });
+        editor.on('init',()=>{
+          const content = editor.getContent();
+          if(content){
+            this.form.photo().value.set(content);
+            this.form.photo().markAsTouched();
+            this.cdr.markForCheck();       
+          }
+         
+        });
+      },
+      file_picker_callback: (callback: any, value: any, meta: any) => {
+        setTimeout(() => this.filePickerHandlerWithEditor(this.editorImageInstance, callback, value, meta), 100);
+      }
+    };
+  }
+
+  private filePickerHandlerWithEditor(editorRef: any, callback: any, value: any, meta: any)
+  {
+    const x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
+    const y = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
+
+    const token = this.localStorageSercvice.getToken();  
+    let cmsURL = `${this.config.baseUrl}/laravel-filemanager?editor=${meta.fieldname}`;
+
+    if (meta.filetype === 'image') {
+      cmsURL += '&type=Images';
+    } else if (meta.filetype === 'media') {
+      cmsURL += '&type=Medias';
+    } else {
+      cmsURL += '&type=Files';
+    }
+
+    if (!editorRef?.windowManager) {
+      console.error('TinyMCE windowManager is not available', { editorRef, isTinyMceLoaded: this.isTinyMceLoaded });
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Erreur',
+        detail: "L'éditeur n'est pas encore prêt. Veuillez réessayer."
+      });
+      return;
+    }
+
+    editorRef.windowManager.openUrl({
+      url: cmsURL,
+      title: 'Hekok File Manager',
+      width: x * 0.8,
+      height: y * 0.8,
+      onMessage: (api: any, message: any) => {
+        let currentUrl = message.content;
+        if (currentUrl.includes('/api/storage')) {
+          currentUrl = currentUrl.replace('/api/storage', '/storage');
+        }
+        //console.log(currentUrl);
+        callback(currentUrl);
+        api.close();
+      },
+      headers: {
+       Authorization: `Bearer ${token}`,
+      }
+    });
+   
   }
 
 }

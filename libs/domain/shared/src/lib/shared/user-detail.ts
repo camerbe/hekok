@@ -7,6 +7,8 @@ export interface UserDetail {
     fullName:string;
     email:string;
     role:string;
+    image:string;
+    photo:string;
     email_verified_at: Date;
     two_factor_secret: string;
     two_factor_recovery_codes: string;
@@ -23,6 +25,7 @@ export interface UserCreateDto {
     email:string;
     password:string;
     password_confirmation:string;
+    photo:string;
     
 }
 

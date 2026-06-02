@@ -4,6 +4,8 @@ export interface VideoDetail {
     id:string;
     titre:string;
     video:string;
+    source:string;
+    social:string;
     datecreation: Date;
     
 }

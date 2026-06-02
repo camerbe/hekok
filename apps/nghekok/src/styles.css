@@ -202,3 +202,9 @@
       font-size: 1.5rem;
       font-weight: 600;
     }
+    /* Images responsive */
+  .article-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }

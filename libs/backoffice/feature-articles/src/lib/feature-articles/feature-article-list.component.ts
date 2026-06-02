@@ -126,6 +126,7 @@ export class FeatureArticleListComponent implements OnInit {
    * METHODS
    */
   ngOnInit(): void {
+    
     if(this.authService.isTokenExpired()) {
       this.router.navigate(['/auth/logout']);
     }

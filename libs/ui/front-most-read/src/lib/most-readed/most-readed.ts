@@ -1,10 +1,12 @@
 import { Component, input } from '@angular/core';
 import { ArticleDetail } from '@org/shared';
 import { DataViewModule } from 'primeng/dataview';
+import {RouterLink} from '@angular/router';
 @Component({
   selector: 'lib-most-readed',
   imports: [
-    DataViewModule
+    DataViewModule,
+    RouterLink
   ],
   template: `
     <div class="bg-gray-100 rounded-2xl p-6">
@@ -15,9 +17,10 @@ import { DataViewModule } from 'primeng/dataview';
         @for (article of mostReadedArticles(); track article.id) {
           <li class="flex justify-between gap-x-6 py-5">
             <div class="flex min-w-0 gap-x-4">
-      <img src="{{ article.image }}" alt="{{ article.titre }}" class="size-12 flex-none rounded-full bg-gray-50" />
+      <img src="{{ article.image }}" alt="{{ article.titre }}" class="size-12 flex-none rounded-full bg-gray-50"/>
       <div class="min-w-0 flex-auto">
-        <p class="text-sm/6 font-semibold text-gray-900">{{ article.titre }}</p>
+        <a routerLink="/actualites/{{ article.slug }}" fragment="actualites" class="block text-sm font-semibold leading-6 text-gray-900">{{ article.titre }}</a>
+       
         <p class="mt-1 truncate text-xs/5 text-gray-500"><i class="pi pi-eye mr-1"></i>{{ article.hit}}</p>
       </div>
       </div>
