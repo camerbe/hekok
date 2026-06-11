@@ -62,6 +62,12 @@ import { AuthService, LocalStorageService } from '@org/auth';
          class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition">
         <i class="pi pi-bullseye"></i> Types de messages
       </a>
+      <a routerLink="/dashboard/videos" 
+       [routerLinkActiveOptions]="{ exact: false }"
+      routerLinkActive="bg-gray-100 dark:bg-gray-700 text-gray-600  text-primary-600"
+         class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+        <i class="pi pi-video"></i> Videos
+      </a>
     </nav>
   </aside>
 

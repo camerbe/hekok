@@ -502,7 +502,7 @@ export class FeatureArticles implements OnInit {
       base_url: '/tinymce',
       suffix: '.min',
       height: 450,
-  };
+  }
 
 
     this.init = {

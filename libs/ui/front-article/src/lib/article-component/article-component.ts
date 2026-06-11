@@ -252,11 +252,10 @@ export class ArticleComponent  {
     });
     //this.loadAG();
     effect(() => {
-      //this.articleStore.cinema();
+      this.articleStore.cinema();
       this.articleStore.articles();
       this.articleStore.messageAg();
-      console.log('Videos loaded:', this.articleStore.cinema());
-      console.log('Youtube key:', this.youtubeKey());
+      
     });
     
     

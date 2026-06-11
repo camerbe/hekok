@@ -7,6 +7,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { AuthService, LocalStorageService } from '@org/auth';
 import { Router } from '@angular/router';
+import { ForgotPassword } from '@org/qui-sommes-nous';
 
 interface CreateLoginForm extends LoginCredentials {}
 
@@ -17,14 +18,15 @@ interface CreateLoginForm extends LoginCredentials {}
     InputGroupAddonModule,
     PasswordModule,
     FormField,
-    InputTextModule
+    InputTextModule,
+    ForgotPassword
   ],
   template: `
-    <div class="min-h-screen flex items-center justify-center bg-gradient-to-r from-indigo-500 to-indigo-700 px-4 py-12">
+    <div class="min-h-screen flex items-center justify-center bg-[linear-gradient(160deg,_#1A0F05_0%,_#2D1206_40%,_#3D1A08_70%,_#1A0F05_100%)] px-4 py-12">
         <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
             <div class="text-center mb-8">
-              <h1 class="text-3xl font-bold text-slate-900">Welcome to Hekok</h1>
-              <p class="text-slate-600 mt-2">Sign in to access your dashboard</p>
+              <h1 class="text-3xl font-bold text-[#C8651A]">Welcome to Hekok</h1>
+              <p class="text-[#C8651A] mt-2">Sign in to access your dashboard</p>
                <form  class="space-y-5 py-3" (submit)="onSubmit($event)" >
                 <!-- Email -->
                 <div class="space-y-1">
@@ -54,7 +56,7 @@ interface CreateLoginForm extends LoginCredentials {}
                 </div>
                 <div class="space-y-1">
                   <button type="submit" [disabled]="!canSubmit()"
-                    class="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed text-white font-semibold py-2.5 rounded-lg transition flex items-center justify-center gap-2" >
+                    class="w-full bg-[#C8651A] hover:bg-[#F5E6C8] disabled:bg-[#B5251E] disabled:cursor-not-allowed text-white font-semibold py-2.5 rounded-lg transition flex items-center justify-center gap-2" >
                     @if (loading()) {
                       <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -67,7 +69,7 @@ interface CreateLoginForm extends LoginCredentials {}
                   </button>
                 </div>
                 <div class="space-y-1">
-                  <button command="show-modal" commandfor="dialog" class="rounded-md bg-gray-950/5 px-2.5 py-1.5 text-sm font-semibold text-gray-900 hover:bg-gray-950/10">Open dialog</button>  
+                 <lib-forgot-password></lib-forgot-password> 
                 </div>
               </form>
             </div>
@@ -108,11 +110,21 @@ export class LoginComponent {
     this.loading.set(true);
     this.authService.login(this.loginData()).subscribe({
       next:(res)=>{
+        //console.log('Login successful:', res);
+        //console.log('Login successful:', res.user.email);
          const expiredTime = Date.now() + (30 * 60 * 1000);
          this.localStorageService.setExpiredTime(expiredTime);
 
         this.loading.set(false);
         this.router.navigate(['/dashboard']);
+        // if(res.user.email_verified_at) {
+          
+        //   this.router.navigate(['/dashboard']);
+        // }
+        // else{
+        //   this.localStorageService.setEmail(res.user.email);
+        //   this.router.navigate(['/auth/reset-password']);
+        // }
         
       },
       error:()=>{

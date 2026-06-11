@@ -15,10 +15,13 @@ import Aura from '@primeuix/themes/aura';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { from, switchMap } from 'rxjs';
 import localeFr from '@angular/common/locales/fr';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 
 export const appConfig: ApplicationConfig = {
   providers: [
+     MessageService,
+    ConfirmationService,
     { provide: APP_CONFIG, useValue: environment },
     { provide: LOCALE_ID, useValue: 'fr-FR' },
     provideBrowserGlobalErrorListeners(), 

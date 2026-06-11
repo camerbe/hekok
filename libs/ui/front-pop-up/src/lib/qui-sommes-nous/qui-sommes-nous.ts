@@ -25,7 +25,7 @@ import { DialogModule } from 'primeng/dialog';
            
         </div>
         <div class="mb-4 text-xs text-justify text-gray-600">
-          <p class="mb-3">
+          <p class="mb-3  article-content">
             L’Association des Banens du Benelux (HEKOK) est une association sans but lucratif créée afin de rassembler les ressortissants Banen de la communauté vivant dans les pays du Benelux.
           </p>
           <p class="mb-3">

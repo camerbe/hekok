@@ -10,4 +10,10 @@ export interface VideoDetail {
     
 }
 
+export interface VideoCreateDto {
+    titre:string;
+    video:string;
+    
+}
+
 export type Video = IDto<VideoDetail>;

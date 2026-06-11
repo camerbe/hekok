@@ -144,12 +144,10 @@ export const ArticleStore = signalStore(
         
         videoService.getVideoList().subscribe({
           next: (cinema) => {
-            console.log('API response:', cinema);
-            console.log('Cinéma →', cinema.data);
             patchState(store, { cinema: cinema.data as unknown as VideoDetail[]});
           },
           error: (error) => {
-             console.log('API error:', error);
+             
             patchState(store, { error: 'Failed to load cinema' });
           }
          });

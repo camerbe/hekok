@@ -26,6 +26,17 @@ import { NgOptimizedImage } from '@angular/common';
           <div class="profile-ring w-28 h-28 mx-auto mb-5">
             
             <div class="profile-inner w-full h-full">
+              <svg viewBox="0 0 112 112" xmlns="http://www.w3.org/2000/svg">
+                <rect width="112" height="112" fill="#8B4513"/>
+                <circle cx="56" cy="42" r="22" fill="#C68642"/>
+                <ellipse cx="56" cy="95" rx="32" ry="24" fill="#A0522D"/>
+                <path d="M34 70 Q56 58 78 70 Q85 82 78 95 Q56 105 34 95 Q27 82 34 70" fill="#C68642"/>
+                <circle cx="48" cy="40" r="3" fill="#3D1A08"/>
+                <circle cx="64" cy="40" r="3" fill="#3D1A08"/>
+                <path d="M48 52 Q56 58 64 52" fill="none" stroke="#3D1A08" stroke-width="2" stroke-linecap="round"/>
+                <!-- Crown/President badge -->
+                <polygon points="56,6 62,18 76,18 65,26 69,39 56,31 43,39 47,26 36,18 50,18" fill="#E8A020" opacity="0.9"/>
+              </svg>
               <img 
                 class="object-cover rounded-t-2xl"
                 fill

@@ -13,10 +13,12 @@ export * from './lib/shared/type-article-detail';
 export * from './lib/shared/type-message-detail';
 
 export * from './lib/shared/message-detail';
+export * from './lib/shared/membre-detail';
 
 
+export * from './lib/shared/user-detail';
 export * from './lib/shared/user-detail';
 
 
 export * from './lib/shared/video-detail';
-export * from './lib/shared/membre-detail';
+export * from './lib/shared/permissions';

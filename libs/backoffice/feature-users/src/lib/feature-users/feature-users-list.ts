@@ -118,6 +118,7 @@ export class FeatureUsersList implements OnInit {
   private readonly router = inject(Router);
 
   ngOnInit(): void {
+    console.log('Initializing FeatureUsersList component...');
     if(this.authService.isTokenExpired()) {
       this.router.navigate(['/auth/login']);
     }
