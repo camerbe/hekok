@@ -12,6 +12,7 @@ import { ArticleApiService, CanonicalService, JsonLdService } from '@org/article
 import { Title, Meta } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Bureau } from '@org/bureau';
+import { APP_CONFIG } from '@org/config';
 
 type Tab = 'ndiki' | 'nitoukou' | 'yingui';
 
@@ -129,6 +130,7 @@ export class LayoutFrontComponent{
   private readonly titleService = inject(Title);
   private readonly metaService = inject(Meta);
   readonly jsonLdService = inject(JsonLdService);
+  protected readonly config = inject(APP_CONFIG);
 
 /***********************
    * SIGNALS
@@ -199,8 +201,14 @@ export class LayoutFrontComponent{
   
   private setupCanonicalUrls() {
     const currentUrl = `${this.baseUrl()}${this.router.url}`;
+    const rssUrl=`${this.config.baseUrl}/rss`;
+    const rssCulture=`${this.config.baseUrl}/rss/culture`;
+    const rssCommunaute=`${this.config.baseUrl}/rss/communaute`;
     this.canonicalService.setCanonicalURL(currentUrl);
     this.canonicalService.setAmpCanonicalURL(`${this.baseUrl()}/amp${this.router.url}`);
+    this.canonicalService.setRssURL(rssUrl);
+    this.canonicalService.setRssURL(rssCulture);
+    this.canonicalService.setRssURL(rssCommunaute);
   }
   private setupMetaTags() {
     const tmpTitre = 'Actualités du peuple Banen du Cameroun et de sa Diaspora, Banen du Benelux | Hekok.org';

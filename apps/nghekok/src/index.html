@@ -8,9 +8,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="index, follow">
     <link rel="icon" type="image/x-icon" href="hekok.ico" />
-
+    <link rel="dns-prefetch" href="//partner.googleadservices.com">
+    <link rel="dns-prefetch" href="//tpc.googlesyndication.com">
+    <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
+    <link rel="dns-prefetch" href="//www.googletagmanager.com">
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="preload" as="script" href="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js">
+    <!-- Rss -->
+     
   </head>
   <body>
     <app-root></app-root>
+    
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'analytics_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied',
+        'wait_for_update': 500
+      });
+      gtag('js', new Date());
+    </script>
+
+    <!-- ✅ Scripts externes chargés avec defer pour meilleure performance -->
+    <script defer src="https://www.googletagmanager.com/gtag/js?id=G-K905N6XENX"></script>
+    <script defer>
+      gtag('config', 'G-K905N6XENX', {
+        'page_path': window.location.pathname,
+        'anonymize_ip': true
+      });
+    </script>
+
+    <!-- ✅ AdSense avec async -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8638642715460968" crossorigin="anonymous"></script>
+
+    <!-- ✅ reCAPTCHA avec defer -->
+    <script defer src="https://www.google.com/recaptcha/enterprise.js"></script>
+
+    <!-- ✅ Twitter widgets avec defer -->
+    <script defer src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
   </body>
 </html>

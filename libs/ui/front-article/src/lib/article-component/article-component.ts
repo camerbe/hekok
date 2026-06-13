@@ -5,7 +5,7 @@ import { DatePipe,isPlatformBrowser, NgOptimizedImage } from '@angular/common';
 import { registerLocaleData } from '@angular/common';
 
 
-import { ArticleDetail, MessageDetail, VideoDetail } from '@org/shared';
+import { ArticleDetail } from '@org/shared';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CardModule } from 'primeng/card';
@@ -17,6 +17,9 @@ import { HomeStore } from '@org/layout';
 import { CarouselModule } from 'primeng/carousel';
 import {RouterLink} from '@angular/router';
 import { YoutubeComponent } from '@org/cinema';
+import { AdsenseComponent } from '@org/components'
+import { APP_CONFIG } from '@org/config';
+
 
 registerLocaleData(localeFr);
 
@@ -33,7 +36,8 @@ type ArticleRouteData = {
     MostReaded,
     CarouselModule,
     RouterLink,
-    YoutubeComponent
+    YoutubeComponent,
+    AdsenseComponent
   ],
   providers: [
     ArticleStore,
@@ -141,6 +145,12 @@ type ArticleRouteData = {
             </div>
           </ng-template>
           </p-carousel>
+          <lib-adsense-component
+            [adClient]="config.adsenseConfig.adClient"
+            [adSlot]="config.adsenseConfig.adSlot"
+            [adFormat]="config.adsenseConfig.adFormat"
+            [fullWidthResponsive]="config.adsenseConfig.fullWidthResponsive"
+          />
         </p-card>
         
       </article>
@@ -152,9 +162,13 @@ type ArticleRouteData = {
           [isAside]="isAside()"
           [ag]="articleStore.agMessage()"
         />
-        <div class="mt-10 p-5 rounded-lg" style="background: linear-gradient(135deg, rgba(232,160,32,0.15), rgba(200,101,26,0.10)); border: 1.5px solid rgba(232,160,32,0.3);">
-          <h3 style="min-width: 300px; min-height: 250px;" class="text-lg font-semibold mb-3" style="color: var(--nuit);" [innerHtml]="youtubeKey()"></h3>
-        </div>
+        
+        <lib-adsense-component
+          [adClient]="config.adsenseConfig.adClient"
+          [adSlot]="config.adsenseConfig.adSlot"
+          [adFormat]="config.adsenseConfig.adFormat"
+          [fullWidthResponsive]="config.adsenseConfig.fullWidthResponsive"
+        />
         <div class="card">
           <lib-youtube [youtubeKey]="youtubeKey()"/>
         </div>
@@ -168,6 +182,13 @@ type ArticleRouteData = {
 })
 export class ArticleComponent  {
 
+
+  // readonly adsenseConfig = {
+  //   adClient: 'ca-pub-8638642715460968',
+  //   adSlot: '6927429462',
+  //   adFormat: 'auto',
+  //   fullWidthResponsive: true
+  // } as const;
   responsiveOptions = [
   {
     breakpoint: '1024px',
@@ -210,7 +231,7 @@ export class ArticleComponent  {
      if (!videos || videos.length === 0) {
         return '';
      }
-     console.log('Cinéma →', videos);
+     //console.log('Cinéma →', videos);
      const randomIndex = Math.floor(Math.random() * videos.length);
      return videos[randomIndex]?.video || '';
   });
@@ -226,7 +247,7 @@ export class ArticleComponent  {
   private readonly router=inject(Router);
   
   readonly articleStore=inject(ArticleStore);
-  //readonly homeStore=inject(HomeStore);
+  protected readonly config = inject(APP_CONFIG);
   /*********************
    * CONSTRUCTEUR
    */

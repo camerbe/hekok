@@ -26,7 +26,7 @@ export class ArticleApiService extends AbstractCrudApi<Article> {
   //   return this.http.get<Article>(`${this.baseUrl}/banen`);
   // }
   getAllBanen() {
-    console.log(`${this.baseUrl}/culture`);
+    
     return this.http.get<Article>(`${this.baseUrl}/banen`);
   }
   getNews() {
@@ -39,7 +39,7 @@ export class ArticleApiService extends AbstractCrudApi<Article> {
     return this.http.get<Article>(`${this.baseUrl}/search/${value}`);
   }
   getCulture() {
-    console.log('getCulture banen called');
+    //console.log('getCulture banen called');
     return this.http.get<Article>(`${this.baseUrl}/culture/banen`);
   }
 

@@ -62,7 +62,9 @@
       "@org/cinema": ["libs/ui/youtube/src/index.ts"],
       "@org/bureau": ["libs/ui/front-team/src/index.ts"],
       "@org/qui-sommes-nous": ["libs/ui/front-pop-up/src/index.ts"],
-      "@org/shell": ["libs/backoffice/feature-shell/src/index.ts"]
+      "@org/shell": ["libs/backoffice/feature-shell/src/index.ts"],
+      "@org/ads": ["libs/data-access/ads-api/src/index.ts"],
+      "@org/components": ["libs/ui/front-components/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

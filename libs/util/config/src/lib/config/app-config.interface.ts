@@ -5,5 +5,11 @@ export interface AppConfig {
         enableNewDashboard: boolean;
         enableBetaFeatures: boolean;
     };
+    adsenseConfig : {
+      adClient: string,
+      adSlot: string,
+      adFormat: string,
+      fullWidthResponsive: boolean
+    };
   version: string;
 }

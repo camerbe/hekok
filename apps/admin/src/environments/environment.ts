@@ -7,5 +7,11 @@ export const environment: AppConfig = {
         enableNewDashboard: true,
         enableBetaFeatures: false
     },
+    adsenseConfig:{
+        adClient: 'ca-pub-8638642715460968',
+        adSlot: '6927429462',
+        adFormat: 'auto',
+        fullWidthResponsive: true
+    },
     version: "1.0.0"
 };

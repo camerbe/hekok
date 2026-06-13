@@ -28,5 +28,19 @@ export class CanonicalService {
       existing.remove();
     }
     this.document.head.appendChild(link);
-   }
+  }
+  setRssURL(url?: string){
+    const canURL = url === undefined ? this.document.URL : url;
+    const link: HTMLLinkElement = this.document.createElement('link');
+    link.setAttribute('rel', 'alternate');
+    link.setAttribute('href', canURL);
+    link.setAttribute('type', 'application/atom+xml');
+    link.setAttribute('title', 'flux rss de hekok.org');
+    // Remove existing amphtml
+    const existing = this.document.querySelector(`link[rel="alternate"][href="${url}"]`);
+    if (!existing) {
+      this.document.head.appendChild(link);
+    }
+    
+  }
 }
