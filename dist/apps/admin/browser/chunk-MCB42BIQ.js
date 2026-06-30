@@ -1,0 +1,1 @@
+import{_a as o}from"./chunk-CRJKYNOU.js";var n=class e{static \u0275fac=function(t){return new(t||e)};static \u0275cmp=o({type:e,selectors:[["ng-component"]],decls:0,vars:0,template:function(t,s){},encapsulation:2})};export{n as a};
