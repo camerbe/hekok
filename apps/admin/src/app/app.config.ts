@@ -9,7 +9,7 @@ import {
 import { provideRouter } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { APP_CONFIG } from '@org/config';
-import { environment } from '../environments/environment';
+import { environment } from '../environments/environment.production';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';

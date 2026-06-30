@@ -1,8 +1,8 @@
 import { AppConfig } from "@org/config";
 
 export const environment: AppConfig = {
-    apiUrl: "https://www.hekok.org/api",
-    baseUrl: "https://www.hekok.org",
+    apiUrl: 'http://localhost:8000/api',
+    baseUrl: 'http://localhost:8000',
     featureFlags: {
         enableNewDashboard: true,
         enableBetaFeatures: false
@@ -13,5 +13,5 @@ export const environment: AppConfig = {
         adFormat: 'auto',
         fullWidthResponsive: true
     },
-    version: "1.0.0"
+    version: 'development'
 };

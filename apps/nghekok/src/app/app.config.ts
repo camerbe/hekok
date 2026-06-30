@@ -13,7 +13,7 @@ import {
   withEventReplay,
   withHttpTransferCacheOptions,
 } from '@angular/platform-browser';
-import { environment } from '../environments/environment';
+import { environment } from '../environments/environment.production';
 import { APP_CONFIG } from '@org/config';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { providePrimeNG } from 'primeng/config';
