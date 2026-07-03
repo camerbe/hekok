@@ -17,10 +17,14 @@ export class ArticleApiService extends AbstractCrudApi<Article> {
     return this.http.get<Article>(`${this.baseUrl}/slug/${slug}`);
   }
   getCountries() {
-    return this.http.get<Article>(`${this.baseUrl}/pays/countries`);
+    return this.http.get<Article>(`${this.baseUrl}/pays/countries`, {
+    withCredentials: true
+  });
   }
   getTypeArticles() {
-    return this.http.get<Article>(`${this.baseUrl}/type/articles`);
+    return this.http.get<Article>(`${this.baseUrl}/type/articles`, {
+      withCredentials: true
+    });
   }
   // getCommunautes() {
   //   return this.http.get<Article>(`${this.baseUrl}/banen`);

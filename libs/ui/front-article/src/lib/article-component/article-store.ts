@@ -254,7 +254,8 @@ export const ArticleStore = signalStore(
       const canonicalUrl=currentUrl.split('#')[0];
 
       //this.articleUrl.set(currentUrl);
-      canonicalService.setCanonicalURL(canonicalUrl);
+      //canonicalService.setCanonicalURL(canonicalUrl);
+      canonicalService.setAmpCanonicalURL(canonicalUrl);
       
     }
    

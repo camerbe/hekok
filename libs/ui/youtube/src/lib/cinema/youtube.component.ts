@@ -13,7 +13,7 @@ import { DomSanitizer } from '@angular/platform-browser';
           loading="lazy"
           allowfullscreen
           referrerpolicy="strict-origin-when-cross-origin"
-          allow="accelerometer; 
+          allow="accelerometer *;
           autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
         </iframe>
     </div>
