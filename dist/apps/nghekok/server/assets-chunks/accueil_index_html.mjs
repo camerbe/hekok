@@ -5,6 +5,7 @@ export default `<!DOCTYPE html><html lang="fr" data-beasties-container><head>
     <base href="/">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="index, follow">
+    <meta name="google-adsense-account" content="ca-pub-8638642715460968">
     <link rel="icon" type="image/x-icon" href="hekok.ico">
     <link rel="dns-prefetch" href="//partner.googleadservices.com">
     <link rel="dns-prefetch" href="//tpc.googlesyndication.com">
