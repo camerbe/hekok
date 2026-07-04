@@ -7,7 +7,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
    const token = localStorageService.getToken();
     if(token){
     const autReq = req.clone({
-      /*withCredentials: true,*/ 
+      withCredentials: true,
       setHeaders:{
         // 'Access-Control-Allow-Origin':'*',
         // 'Access-Control-Allow-Credentials': 'true',
@@ -15,7 +15,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         // 'Content-Type':'application/json',
         // 'Accept':'*/*',
         // 'mode': 'no-cors',
-        ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+        //...(token ? { 'Authorization': `Bearer ${token}` } : {}),
         'Accept': 'application/json',
         //'Authorization':`Bearer ${token}`
       }
