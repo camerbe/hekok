@@ -12,7 +12,7 @@ export class ArticleApiService extends AbstractCrudApi<Article> {
   protected override baseUrl: string = this.config.apiUrl + '/articles'  ;
 
   private ensureCsrf() {
-    return this.http.get(`${this.baseUrl}/sanctum/csrf-cookie`, {
+    return this.http.get(`${this.config.baseUrl}/sanctum/csrf-cookie`, {
       withCredentials: true
     });
   }
