@@ -24,6 +24,8 @@ export class AuthService implements AuthRepository {
         this.localStorageService.setRole(res.user.role);
         this.localStorageService.setName(res.user.nom+' '+res.user.prenom);
         this.userRole = res.user.role as Role;
+        const expiresInMs = 1 * 60 * 60 * 1000;
+        this.localStorageService.setExpiredTime(Date.now() + expiresInMs);
 
       }),
       //map(res =>res.data),  
