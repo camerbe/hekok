@@ -11,7 +11,7 @@ const EMAIL='email';
 })
 export class LocalStorageService {
   setToken(data:string){
-    sessionStorage.setItem(TOKEN,data);
+    localStorage.setItem(TOKEN,data);
   }
   setRole(data:string){    
     localStorage.setItem(ROLE,data);    
@@ -31,7 +31,7 @@ export class LocalStorageService {
     return value ? Number(value) : null;
   }
   getToken():string{
-    return sessionStorage.getItem(TOKEN) || '';
+    return localStorage.getItem(TOKEN) || '';
   }
   getRole():string{
     return localStorage.getItem(ROLE) || '';
@@ -48,7 +48,7 @@ export class LocalStorageService {
     localStorage.removeItem(EMAIL);
   }
   removeToken(){
-    sessionStorage.removeItem(TOKEN);
+    localStorage.removeItem(TOKEN);
     localStorage.removeItem(ROLE);
     localStorage.removeItem(NAME);
     localStorage.removeItem(EXPIRED_TIME);
