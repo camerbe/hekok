@@ -17,7 +17,9 @@ export class AuthService implements AuthRepository {
   private localStorageService=inject(LocalStorageService);
 
   login(credentials: LoginCredentials): Observable<UserApiResponse> {
-     return this.http.post<UserApiResponse>(`${this.config.apiUrl}/login`, credentials, { withCredentials: true }).pipe(
+     return this.csrf().pipe(
+      switchMap(() => this.http.post<UserApiResponse>(`${this.config.apiUrl}/login`, credentials, { withCredentials: true }))
+     ).pipe(
       tap(res => {
         const { message, success, token, user } = res;
         this.localStorageService.setToken(res.token);

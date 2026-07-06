@@ -8,7 +8,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
    console.log('Token at request time:', token);
     if(token){
     const autReq = req.clone({
-      // withCredentials: true,
+      withCredentials: true,
       setHeaders:{
          'Access-Control-Allow-Origin':'*',
          'Access-Control-Allow-Credentials': 'true',
