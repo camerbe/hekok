@@ -33,7 +33,7 @@ registerLocaleData(localeFr);
     ConfirmationService,
     MessageService,
     { provide: LOCALE_ID, useValue: 'fr-FR' },
-    { provide: TINYMCE_SCRIPT_SRC, useValue: '/tinymce/tinymce.min.js' },
+    { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' },
   ],
   imports: [
     FormField,
@@ -167,7 +167,7 @@ registerLocaleData(localeFr);
         <!-- Info-->
         <div class="flex flex-col gap-1 col-span-2">
           <label for="info" class="text-sm font-medium text-slate-700">Article</label>
-          <editor [formField]="form.article" id="article" [init]="init" licenseKey="gpl" [] />
+          <editor [formField]="form.article" id="article" [init]="init" licenseKey="gpl"  />
           @if(form.article().invalid() && form.article().touched()) {
               <small class="text-red-600">L'article est requis</small>
             }  
@@ -175,7 +175,7 @@ registerLocaleData(localeFr);
         <!-- Photo-->
         <div class="flex flex-col gap-1 col-span-2">
           <label for="image" class="text-sm font-medium text-slate-700">Photo</label>
-          <editor [formField]="form.image" id="image" [init]="image" licenseKey="gpl" [] />
+          <editor [formField]="form.image" id="image" [init]="image" licenseKey="gpl"  />
           @if(form.image().invalid() && form.image().touched()) {
               <small class="text-red-600">La photo est requise</small>
             }  
@@ -243,26 +243,7 @@ export class FeatureArticles implements OnInit {
     required(f.image);
   });
 
-//   protected  form = form(signal<CreateArticleForm>({
-//   info: '',
-//   typearticle_id: '',
-//   pays_id: '',
-//   titre: '',
-//   datearticle: new Date(),
-//   auteur: '',
-//   source: '',
-//   photo: '',
-//   keywords: ''
-// }), (f) => {
-//   required(f.auteur);
-//   required(f.keywords);
-//   required(f.source);
-//   required(f.titre);
-//   required(f.typearticle_id);
-//   required(f.pays_id);
-//   required(f.datearticle);
-//   maxLength(f.titre, 90);
-// });
+
   /********************************
    * VARIABLE
    */
@@ -497,9 +478,11 @@ export class FeatureArticles implements OnInit {
 
   private initTinyMceConfig() {
     const sharedBase = {
-      path_absolute: '/',
-      relative_urls: false,
-      base_url: '/tinymce',
+      //path_absolute: '/',
+      menubar: false,
+      branding: false,
+      //relative_urls: false,
+      //base_url: '/tinymce',
       suffix: '.min',
       height: 450,
   }
@@ -515,11 +498,11 @@ export class FeatureArticles implements OnInit {
       ],
       toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media table mergetags blockquote',
       setup: (editor: any) => {
-        editor.on('init', () => {
+        /*editor.on('init', () => {
           this.editorArticleInstance = editor;
           this.isTinyMceLoaded = true;
           this.cdr.markForCheck();
-        });
+        });*/
         editor.on('change input',()=>{
           this.form.article().value.set(editor.getContent());
           this.form.article().markAsTouched();
@@ -539,17 +522,17 @@ export class FeatureArticles implements OnInit {
       ],
       toolbar: 'image media',
       setup: (editor: any) => {
-        editor.on('init', () => {
+        /*editor.on('init', () => {
           this.editorImageInstance = editor;
           this.isTinyMceLoaded = true;
           this.cdr.markForCheck();
-        });
+        });*/
         editor.on('init',()=>{
           const content = editor.getContent();
           if(content){
             this.form.image().value.set(content);
             this.form.image().markAsTouched();
-            this.cdr.markForCheck();       
+            //this.cdr.markForCheck();       
           }
          
         });
