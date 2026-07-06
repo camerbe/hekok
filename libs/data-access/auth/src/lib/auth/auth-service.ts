@@ -40,7 +40,7 @@ export class AuthService implements AuthRepository {
     return !expiredTime || Date.now() > expiredTime;
   }
   csrf() {
-    return this.http.get(`${this.config.apiUrl}/sanctum/csrf-cookie`, { withCredentials: true });
+    return this.http.get(`${this.config.baseUrl}/sanctum/csrf-cookie`, { withCredentials: true });
   }
 
   forgotPassword(data: any) {
