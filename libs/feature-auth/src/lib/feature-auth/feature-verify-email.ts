@@ -9,9 +9,8 @@ import { AuthService } from '@org/auth';
 @Component({
   selector: 'lib-feature-verify-email',
   imports: [
-    FormField,
-    InputTextModule,
-    CrudButton
+    InputTextModule
+    
   ],
   template: `
     
