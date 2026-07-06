@@ -478,11 +478,11 @@ export class FeatureArticles implements OnInit {
 
   private initTinyMceConfig() {
     const sharedBase = {
-      //path_absolute: '/',
+      path_absolute: '/',
       menubar: false,
       branding: false,
       //relative_urls: false,
-      //base_url: '/tinymce',
+      base_url: '/admin/tinymce',
       suffix: '.min',
       height: 450,
   }
@@ -498,11 +498,11 @@ export class FeatureArticles implements OnInit {
       ],
       toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media table mergetags blockquote',
       setup: (editor: any) => {
-        /*editor.on('init', () => {
+        editor.on('init', () => {
           this.editorArticleInstance = editor;
           this.isTinyMceLoaded = true;
           this.cdr.markForCheck();
-        });*/
+        });
         editor.on('change input',()=>{
           this.form.article().value.set(editor.getContent());
           this.form.article().markAsTouched();
@@ -522,11 +522,11 @@ export class FeatureArticles implements OnInit {
       ],
       toolbar: 'image media',
       setup: (editor: any) => {
-        /*editor.on('init', () => {
+        editor.on('init', () => {
           this.editorImageInstance = editor;
           this.isTinyMceLoaded = true;
           this.cdr.markForCheck();
-        });*/
+        });
         editor.on('init',()=>{
           const content = editor.getContent();
           if(content){
