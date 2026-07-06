@@ -39,6 +39,8 @@ export class AuthService implements AuthRepository {
   }
   isTokenExpired(): boolean {
     const expiredTime = this.localStorageService.getExpiredTime();
+    console.log('Expired time:', expiredTime);
+    console.log('isExpired:', !expiredTime || Date.now() > expiredTime);
     return !expiredTime || Date.now() > expiredTime;
   }
   csrf() {
