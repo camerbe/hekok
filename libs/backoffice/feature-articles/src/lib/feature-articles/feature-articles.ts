@@ -459,13 +459,13 @@ export class FeatureArticles implements OnInit {
       width: x * 0.8,
       height: y * 0.8,
       onMessage: (api: any, message: any) => {
-        //let currentUrl = message.content;
-        /*if (currentUrl.includes('/api/storage')) {
+        let currentUrl = message.content;
+        if (currentUrl.includes('/api/storage')) {
           currentUrl = currentUrl.replace('/api/storage', '/storage');
-        }*/
+        }
         //console.log(currentUrl);
-        //callback(currentUrl);
-        callback(message.content);
+        callback(currentUrl);
+        //callback(message.content);
         api.close();
       }
     });

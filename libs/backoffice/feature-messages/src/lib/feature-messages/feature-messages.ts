@@ -314,11 +314,11 @@ export class FeatureMessages implements OnInit {
       width: x * 0.8,
       height: y * 0.8,
       onMessage: (api: any, message: any) => {
-        // let currentUrl = message.content;
-        // if (currentUrl.includes('/api/storage')) {
-        //   currentUrl = currentUrl.replace('/api/storage', '/storage');
-        // }
-        callback(message.content);
+        let currentUrl = message.content;
+        if (currentUrl.includes('/api/storage')) {
+          currentUrl = currentUrl.replace('/api/storage', '/storage');
+        }
+        callback(currentUrl);
         api.close();
       }
     });
