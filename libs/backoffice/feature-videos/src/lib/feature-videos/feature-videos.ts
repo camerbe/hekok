@@ -25,7 +25,7 @@ type CreateVideoForm = VideoCreateDto ;
     ConfirmationService,
     MessageService,
     { provide: LOCALE_ID, useValue: 'fr-FR' },
-    { provide: TINYMCE_SCRIPT_SRC, useValue: '/tinymce/tinymce.min.js' },
+    { provide: TINYMCE_SCRIPT_SRC, useValue: '/admin/tinymce/tinymce.min.js' },
   ],
   imports: [
     FormField,

@@ -33,7 +33,7 @@ registerLocaleData(localeFr);
     DatePipe,
     MessageService,
     ConfirmationService,
-    { provide: TINYMCE_SCRIPT_SRC, useValue: '/tinymce/tinymce.min.js' },
+    { provide: TINYMCE_SCRIPT_SRC, useValue: '/admin/tinymce/tinymce.min.js' },
     { provide: LOCALE_ID, useValue: 'fr-FR' }
   ],
   imports: [
