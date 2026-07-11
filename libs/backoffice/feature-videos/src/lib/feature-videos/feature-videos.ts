@@ -163,9 +163,11 @@ export class FeatureVideos implements OnInit {
   
   private initTinyMceConfig() {
     const sharedBase = {
-      path_absolute: '/',
-      relative_urls: false,
-      base_url: '/tinymce',
+     path_absolute: '/',
+      menubar: false,
+      branding: false,
+      //relative_urls: false,
+      base_url: '/admin/tinymce',
       suffix: '.min',
       height: 450,
     };
@@ -234,16 +236,13 @@ export class FeatureVideos implements OnInit {
       width: x * 0.8,
       height: y * 0.8,
       onMessage: (api: any, message: any) => {
-        let currentUrl = message.content;
-        if (currentUrl.includes('/api/storage')) {
-          currentUrl = currentUrl.replace('/api/storage', '/storage');
-        }
+        // let currentUrl = message.content;
+        // if (currentUrl.includes('/api/storage')) {
+        //   currentUrl = currentUrl.replace('/api/storage', '/storage');
+        // }
         //console.log(currentUrl);
-        callback(currentUrl);
+        callback(message.content);
         api.close();
-      },
-      headers: {
-       Authorization: `Bearer ${token}`,
       }
     });
    

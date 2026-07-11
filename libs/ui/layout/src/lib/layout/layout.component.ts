@@ -201,9 +201,9 @@ export class LayoutFrontComponent{
   
   private setupCanonicalUrls() {
     const currentUrl = `${this.baseUrl()}${this.router.url}`;
-    const rssUrl=`${this.config.baseUrl}/rss`;
-    const rssCulture=`${this.config.baseUrl}/rss/culture`;
-    const rssCommunaute=`${this.config.baseUrl}/rss/communaute`;
+    const rssUrl=`${this.config.baseUrl}/api/rss`;
+    const rssCulture=`${this.config.baseUrl}/api/rss/culture`;
+    const rssCommunaute=`${this.config.baseUrl}/api/rss/communaute`;
     this.canonicalService.setCanonicalURL(currentUrl);
     this.canonicalService.setAmpCanonicalURL(`${this.baseUrl()}/amp${this.router.url}`);
     this.canonicalService.setRssURL(rssUrl);

@@ -18,6 +18,7 @@ export class AuthService implements AuthRepository {
 
   login(credentials: LoginCredentials): Observable<UserApiResponse> {
      return this.csrf().pipe(
+
       switchMap(() => this.http.post<UserApiResponse>(`${this.config.apiUrl}/login`, credentials, { withCredentials: true }))
      ).pipe(
       tap(res => {
@@ -44,6 +45,7 @@ export class AuthService implements AuthRepository {
     return !expiredTime || Date.now() > expiredTime;
   }
   csrf() {
+    //console.log(`Fetching CSRF token... ${this.config.baseUrl}`);
     return this.http.get(`${this.config.baseUrl}/sanctum/csrf-cookie`, { withCredentials: true });
   }
 
@@ -60,7 +62,7 @@ export class AuthService implements AuthRepository {
   }
    
   verifyEmail(url: string) {
-    console.log(`${url}`);
+    //console.log(`${url}`);
     return this.csrf().pipe(
       switchMap(() => this.http.get(`${url}`, { withCredentials: true }))
     );

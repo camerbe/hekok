@@ -432,7 +432,7 @@ export class FeatureArticles implements OnInit {
     const x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
     const y = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
 
-    const token = this.localStorageSercvice.getToken();  
+    //const token = this.localStorageSercvice.getToken();  
     let cmsURL = `${this.config.baseUrl}/laravel-filemanager?editor=${meta.fieldname}`;
 
     if (meta.filetype === 'image') {
@@ -459,16 +459,14 @@ export class FeatureArticles implements OnInit {
       width: x * 0.8,
       height: y * 0.8,
       onMessage: (api: any, message: any) => {
-        let currentUrl = message.content;
-        if (currentUrl.includes('/api/storage')) {
+        //let currentUrl = message.content;
+        /*if (currentUrl.includes('/api/storage')) {
           currentUrl = currentUrl.replace('/api/storage', '/storage');
-        }
+        }*/
         //console.log(currentUrl);
-        callback(currentUrl);
+        //callback(currentUrl);
+        callback(message.content);
         api.close();
-      },
-      headers: {
-       Authorization: `Bearer ${token}`,
       }
     });
    

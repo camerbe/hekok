@@ -287,7 +287,7 @@ export class FeatureMessages implements OnInit {
     const x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
     const y = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
 
-    const token = this.localStorageSercvice.getToken();  
+    //const token = this.localStorageSercvice.getToken();  
     let cmsURL = `${this.config.baseUrl}/laravel-filemanager?editor=${meta.fieldname}`;
 
     if (meta.filetype === 'image') {
@@ -314,15 +314,12 @@ export class FeatureMessages implements OnInit {
       width: x * 0.8,
       height: y * 0.8,
       onMessage: (api: any, message: any) => {
-        let currentUrl = message.content;
-        if (currentUrl.includes('/api/storage')) {
-          currentUrl = currentUrl.replace('/api/storage', '/storage');
-        }
-        callback(currentUrl);
+        // let currentUrl = message.content;
+        // if (currentUrl.includes('/api/storage')) {
+        //   currentUrl = currentUrl.replace('/api/storage', '/storage');
+        // }
+        callback(message.content);
         api.close();
-      },
-      headers: {
-        Authorization: `Bearer ${token}`,
       }
     });
   }
@@ -332,8 +329,10 @@ export class FeatureMessages implements OnInit {
   private initTinyMceConfig() {
     const sharedBase = {
       path_absolute: '/',
-      relative_urls: false,
-      base_url: '/tinymce',
+      menubar: false,
+      branding: false,
+      //relative_urls: false,
+      base_url: '/admin/tinymce',
       suffix: '.min',
       height: 450,
   };
